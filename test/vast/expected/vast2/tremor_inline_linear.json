@@ -1,0 +1,132 @@
+{
+    "$version": "2.0",
+    "$ads": [{
+        "$id": "601364",
+        "$type": "inline",
+        "$adsystem": "Acudeo Compatible",
+        "$adtitle": "VAST 2.0 Instream Test 1",
+        "$description": "VAST 2.0 Instream Test 1",
+        "$error": [
+            "http://myErrorURL/error"
+        ],
+        "$impression": [
+            "http://myTrackingURL/impression"
+        ],
+        "$creatives": [{
+            "$adid": "601364",
+            "$type": "linear",
+            "$duration": "00:00:30",
+            "$trackingevents": {
+                "$start": [
+                    "http://myTrackingURL/start"
+                ],
+                "$firstquartile": [
+                    "http://myTrackingURL/firstQuartile"
+                ],
+                "$midpoint": [
+                    "http://myTrackingURL/midpoint"
+                ],
+                "$thirdquartile": [
+                    "http://myTrackingURL/thirdQuartile"
+                ],
+                "$complete": [
+                    "http://myTrackingURL/complete"
+                ],
+                "$pause": [],
+                "$resume": [],
+                "$mute": [],
+                "$unmute": [],
+                "$expand": [],
+                "$collapse": [],
+                "$rewind": [],
+                "$skip": [],
+                "$close": [],
+                "$creativeview": [
+                    "http://myTrackingURL/creativeView"
+                ],
+                "$fullscreen": [],
+                "$acceptinvitation": [],
+                "$exitfullscreen": [],
+                "$acceptinvitationlinear": [],
+                "$closelinear": [],
+                "$progress": {
+                    "1": [],
+                    "2": [],
+                    "3": [],
+                    "4": [],
+                    "5": [],
+                    "6": [],
+                    "7": [],
+                    "8": [],
+                    "9": [],
+                    "10": [],
+                    "11": [],
+                    "12": [],
+                    "13": [],
+                    "14": [],
+                    "15": [],
+                    "16": [],
+                    "17": [],
+                    "18": [],
+                    "19": [],
+                    "20": [],
+                    "21": [],
+                    "22": [],
+                    "23": [],
+                    "24": [],
+                    "25": [],
+                    "26": [],
+                    "27": [],
+                    "28": [],
+                    "29": [],
+                    "30": []
+                }
+            },
+            "$videoclicks": {
+                "$clickthrough": [
+                    "http://www.tremormedia.com"
+                ],
+                "$clicktracking": [
+                    "http://myTrackingURL/click"
+                ],
+                "$customclick": []
+            },
+            "$mediafiles": [{
+                "$delivery": "progressive",
+                "$type": "video/x-flv",
+                "$bitrate": "500",
+                "$width": "400",
+                "$height": "300",
+                "$scalable": "true",
+                "$maintainaspectratio": "true",
+                "$source": "http://cdnp.tremormedia.com/video/acudeo/Carrot_400x300_500kb.flv"
+            }]
+        }, {
+            "_tagName": "creative",
+            "$adid": "601364-Companion",
+            "$type": "companionads",
+            "$list": [{
+                "_tagName": "companion",
+                "$width": "300",
+                "$height": "250",
+                "$staticresource": "http://demo.tremormedia.com/proddev/vast/Blistex1.jpg",
+                "$trackingevents": [{
+                    "_tagName": "tracking",
+                    "$event": "creativeView",
+                    "_tagValue": "http://myTrackingURL/firstCompanionCreativeView"
+                }],
+                "$companionclickthrough": "http://www.tremormedia.com",
+                "_tagValue": []
+            }, {
+                "_tagName": "companion",
+                "$width": "728",
+                "$height": "90",
+                "$staticresource": "http://demo.tremormedia.com/proddev/vast/728x90_banner1.jpg",
+                "$companionclickthrough": "http://www.tremormedia.com",
+                "_tagValue": []
+            }],
+            "_tagValue": []
+        }],
+        "$redirects": 0
+    }]
+}

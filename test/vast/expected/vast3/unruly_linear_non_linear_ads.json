@@ -1,0 +1,83 @@
+{
+    "$version": "3.0",
+    "$xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "$xsi:nonamespaceschemalocation": "../../vast/vast3_draft.xsd",
+    "$ads": [{
+        "$id": "1",
+        "$sequence": "1",
+        "$type": "inline",
+        "$adsystem": "Test Ad Server",
+        "$adtitle": "Sample title",
+        "$description": "Test description #hashtag",
+        "$impression": [],
+        "$creatives": [{
+            "_tagName": "creative",
+            "$type": "nonlinearads",
+            "$list": [{
+                "_tagName": "nonlinear",
+                "$width": "0",
+                "$height": "0",
+                "$staticresource": "http://example.com/sample.jpg",
+                "_tagValue": [{
+                    "_tagName": "nonlinearclickthrough",
+                    "_tagValue": "https://example.com/banner.html"
+                }]
+            }],
+            "_tagValue": []
+        }, {
+            "$type": "linear",
+            "$duration": "00:00:05",
+            "$videoclicks": {
+                "$clickthrough": [
+                    "http://example.com/linear-video-clickthrough"
+                ],
+                "$clicktracking": [
+                    "http://example.com/inline/linear-video-click",
+                    "http://example.com/inline/linear-post-video-click"
+                ],
+                "$customclick": []
+            },
+            "$mediafiles": [{
+                "$delivery": "streaming",
+                "$type": "video/mp4",
+                "$width": "480",
+                "$height": "608",
+                "$source": "http://example.com/movie-short.mp4"
+            }],
+            "$trackingevents": {
+                "$start": [],
+                "$firstquartile": [],
+                "$midpoint": [],
+                "$thirdquartile": [],
+                "$complete": [],
+                "$pause": [],
+                "$resume": [],
+                "$mute": [],
+                "$unmute": [],
+                "$expand": [],
+                "$collapse": [],
+                "$rewind": [],
+                "$skip": [],
+                "$close": [],
+                "$creativeview": [],
+                "$fullscreen": [],
+                "$acceptinvitation": [],
+                "$exitfullscreen": [],
+                "$acceptinvitationlinear": [],
+                "$closelinear": [],
+                "$progress": {
+                    "1": [],
+                    "2": [],
+                    "3": [],
+                    "4": [],
+                    "5": []
+                }
+            }
+        }],
+        "$extensions": [
+            {}
+        ],
+        "$error": [],
+        "$redirects": 0
+    }]
+}

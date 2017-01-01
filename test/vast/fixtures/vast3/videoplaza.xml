@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vast version="3.0">
+    <ad id="41039f00-6127-418b-a22a-0d31c46f92a5" sequence="1">
+        <inline>
+            <adsystem>
+                Videoplaza Karbon
+            </adsystem>
+            <adtitle>
+                Preroll green
+            </adtitle>
+            <error>
+                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=0&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=0&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p&ua=%5Bua%5D&uc=%5Buc%5D]]>
+            </error>
+            <impression>
+                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=0&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p&ua=%5Bua%5D&uc=%5Buc%5D]]>
+            </impression>
+            <creatives>
+                <creative id="video">
+                    <linear>
+                        <duration>
+                            00:00:04
+                        </duration>
+                        <trackingevents>
+                            <tracking event="resume">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=36&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                            <tracking event="start">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=14&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                            <tracking event="thirdQuartile">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=17&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                            <tracking event="mute">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=32&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                            <tracking event="skip">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=23&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                            <tracking event="pause">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=34&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                            <tracking event="rewind">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=35&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                            <tracking event="fullscreen">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=37&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                            <tracking event="firstQuartile">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=15&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                            <tracking event="midpoint">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=16&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                            <tracking event="unmute">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=33&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                            <tracking event="complete">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=18&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                            <tracking event="closeLinear">
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=7&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </tracking>
+                        </trackingevents>
+                        <videoclicks>
+                            <clickthrough>
+                                <![CDATA[https://www.google.se/search?q=green+color]]>
+                            </clickthrough>
+                            <clicktracking>
+                                <![CDATA[https://pulse-demo.videoplaza.tv/proxy/tracker/v2?aid=41039f00-6127-418b-a22a-0d31c46f92a5&cd=52&cf=long_form&dcid=d25462f4-ea19-4eaf-99b9-85de3f29d059&e=20&pid=test&rnd=%5BCACHEBUSTING%5D&tid=f05be29c-0258-11e6-aa5e-002590e80b87&tt=p]]>
+                            </clicktracking>
+                        </videoclicks>
+                        <mediafiles>
+                            <mediafile bitrate="538" delivery="progressive" height="288" scalable="true" type="video/mp4" width="512">
+                                <![CDATA[https://vp.videoplaza.tv/creatives/assets/1691464c-6017-4c76-b23d-ff45a947df8c/3b617267-116d-49cd-8a20-531f3650aeb9.mp4]]>
+                            </mediafile>
+                            <mediafile bitrate="293" delivery="progressive" height="288" scalable="true" type="video/mp4" width="512">
+                                <![CDATA[https://vp.videoplaza.tv/creatives/assets/1691464c-6017-4c76-b23d-ff45a947df8c/49be3f84-048f-47f4-8c4b-03d960d6ef9c.mp4]]>
+                            </mediafile>
+                            <mediafile bitrate="804" delivery="progressive" height="576" scalable="true" type="video/mp4" width="1024">
+                                <![CDATA[https://vp.videoplaza.tv/creatives/assets/1691464c-6017-4c76-b23d-ff45a947df8c/b3fe26b0-7dbd-4235-8e9a-59c344095fd1.mp4]]>
+                            </mediafile>
+                        </mediafiles>
+                    </linear>
+                </creative>
+            </creatives>
+            <extensions>
+                <extension name="Videoplaza" type="AdServer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="VPAdServerExtension_type">
+                    <adinfo cid="bf1a76a8-c28d-47f6-9d55-199250f1a3e3" exclusive="false" format="spot_standard" gid="6ef2e3d8-f4f1-4a90-870b-89d2b07cd341" lastimpression="1460648862886" requesttype="lazy" showskipbutton="never" skipreset="24:00:00.0" variant="NORMAL">
+                    </adinfo>
+                </extension>
+            </extensions>
+        </inline>
+    </ad>
+</vast>

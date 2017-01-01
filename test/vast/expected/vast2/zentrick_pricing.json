@@ -1,0 +1,64 @@
+{
+    "$version": "2.0",
+    "$ads": [{
+        "$id": "preroll-1",
+        "$type": "inline",
+        "$adsystem": "2.0",
+        "$adtitle": "5773100",
+        "$creatives": [{
+            "$type": "linear",
+            "$duration": "00:00:01",
+            "$mediafiles": [{
+                "$height": "270",
+                "$width": "370",
+                "$type": "application/x-shockwave-flash",
+                "$source": "http://static.scanscout.com/ads/vpaidad3.swf?adData=http%3A//app.scanscout.com/ssframework/adStreamJSController.xml%3Fa%3Dgetadscheduleforcontent%26PI%3D567%26scheduleVersion%3Dnull%26HI%3D567|preroll|7496075541100999745%26AI%3D0"
+            }],
+            "$trackingevents": {
+                "$start": [],
+                "$firstquartile": [],
+                "$midpoint": [],
+                "$thirdquartile": [],
+                "$complete": [],
+                "$pause": [],
+                "$resume": [],
+                "$mute": [],
+                "$unmute": [],
+                "$expand": [],
+                "$collapse": [],
+                "$rewind": [],
+                "$skip": [],
+                "$close": [],
+                "$creativeview": [],
+                "$fullscreen": [],
+                "$acceptinvitation": [],
+                "$exitfullscreen": [],
+                "$acceptinvitationlinear": [],
+                "$closelinear": [],
+                "$progress": {
+                    "1": []
+                }
+            },
+            "$videoclicks": {
+                "$clickthrough": [],
+                "$clicktracking": [],
+                "$customclick": []
+            }
+        }, {
+            "_tagName": "creative",
+            "$type": "companionads",
+            "$list": [{
+                "_tagName": "companion",
+                "$height": "250",
+                "$width": "300",
+                "$id": "573242",
+                "$htmlresource": "<A onClick=\"var i= new Image(1,1); i.src='http://app.scanscout.com/ssframework/log/log.png?a=logitemaction&RI=573242&CbC=1&CbF=true&EC=0&RC=0&SmC=2&CbM=1.0E-5&VI=44cfc3b2382300cb751ba129fe51f46a&admode=preroll&PRI=7496075541100999745&RprC=5&ADsn=20&VcaI=192,197&RrC=1&VgI=44cfc3b2382300cb751ba129fe51f46a&AVI=142&Ust=ma&Uctry=us&CI=1247549&AC=4&PI=567&Udma=506&ADI=5773100&VclF=true';\" HREF=\"http://vaseline.com\" target=\"_blank\"><IMG SRC=\"http://media.scanscout.com/ads/vaseline300x250Companion.jpg\" BORDER=0 WIDTH=300 HEIGHT=250 ALT=\"Click Here\"></A><img src=\"http://app.scanscout.com/ssframework/log/log.png?a=logitemaction&RI=573242&CbC=1&CbF=true&EC=1&RC=0&SmC=2&CbM=1.0E-5&VI=44cfc3b2382300cb751ba129fe51f46a&admode=preroll&PRI=7496075541100999745&RprC=5&ADsn=20&VcaI=192,197&RrC=1&VgI=44cfc3b2382300cb751ba129fe51f46a&AVI=142&Ust=ma&Uctry=us&CI=1247549&AC=4&PI=567&Udma=506&ADI=5773100&VclF=true\" height=\"1\" width=\"1\">",
+                "_tagValue": []
+            }],
+            "_tagValue": []
+        }],
+        "$impression": [],
+        "$error": [],
+        "$redirects": 0
+    }]
+}

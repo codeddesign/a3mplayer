@@ -1,0 +1,45 @@
+{
+  "vast": {
+    "name": "VAST",
+    "value": [
+      {
+        "vast": {
+          "name": "VAST",
+          "value": "",
+          "attributes": {
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "version": "1.0"
+          }
+        }
+      },
+      {
+        "ad": {
+          "name": "ad",
+          "value": [
+            {
+              "child": {
+                "name": "child",
+                "value": "one",
+                "attributes": {}
+              }
+            },
+            {
+              "child": {
+                "name": "child",
+                "value": "two",
+                "attributes": {}
+              }
+            }
+          ],
+          "attributes": {
+            "id": "1"
+          }
+        }
+      }
+    ],
+    "attributes": {
+      "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "version": "2.0"
+    }
+  }
+}

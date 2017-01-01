@@ -1,0 +1,10 @@
+{
+  "vast": {
+    "name": "VAST",
+    "value": "",
+    "attributes": {
+      "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "version": "2.0"
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "vast": {
+    "name": "VAST",
+    "value": [
+      {
+        "ad": {
+          "name": "Ad",
+          "value": [
+            {
+              "inline": {
+                "name": "InLine",
+                "value": [
+                  {
+                    "adsystem": {
+                      "name": "AdSystem",
+                      "value": "DART_DFP",
+                      "attributes": {
+                        "version": "2.0"
+                      }
+                    }
+                  },
+                  {
+                    "adtitle": {
+                      "name": "AdTitle",
+                      "value": "",
+                      "attributes": {
+                        "id": "123"
+                      }
+                    }
+                  },
+                  {
+                    "description": {
+                      "name": "Description",
+                      "value": "",
+                      "attributes": {}
+                    }
+                  },
+                  {
+                    "survey": {
+                      "name": "Survey",
+                      "value": "",
+                      "attributes": {}
+                    }
+                  }
+                ],
+                "attributes": {}
+              }
+            }
+          ],
+          "attributes": {
+            "id": "preroll-1",
+            "sequence": "1"
+          }
+        }
+      }
+    ],
+    "attributes": {
+      "version": "3.0",
+      "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "xsi:nonamespaceschemalocation": "vast.xsd"
+    }
+  }
+}

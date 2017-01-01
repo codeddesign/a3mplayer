@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VAST xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+   <Ad id="1291">
+      <InLine>
+         <Error><![CDATA[http://t.teads.tv/track?action=error-vast&code=[ERRORCODE]&pid=0&gid=1550&1423219213482]]></Error>
+         <AdSystem>Teads Technology</AdSystem>
+         <AdTitle><![CDATA[Emirate]]></AdTitle>
+         <Impression></Impression>
+         <Creatives>
+            <Creative id="1562">
+               <Linear>
+                  <Duration>00:00:30</Duration>
+                  <TrackingEvents>
+                     <Tracking event="start"><![CDATA[http://b.scorecardresearch.com/p?C1=1&C2=17198971&C5=01]]></Tracking>
+                     <Tracking event="progress" offset="00:00:01"><![CDATA[http://a.teads.tv]]></Tracking>
+                     <Tracking event="progress" offset="00:00:01"><![CDATA[http://t.teads.tv/track?action=progress-1&pid=0&cid=271281&gid=1550&1423219213482&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:02"><![CDATA[http://t.teads.tv/track?action=progress-2&pid=0&cid=271281&gid=1550&1423219213482&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:03"><![CDATA[http://t.teads.tv/track?action=progress-3&pid=0&cid=271281&gid=1550&1423219213482&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:04"><![CDATA[http://t.teads.tv/track?action=progress-4&pid=0&cid=271281&gid=1550&1423219213482&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:05"><![CDATA[http://t.teads.tv/track?action=progress-5&pid=0&cid=271281&gid=1550&1423219213482&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:06"><![CDATA[http://t.teads.tv/track?action=progress-6&pid=0&cid=271281&gid=1550&1423219213482&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:07"><![CDATA[http://t.teads.tv/track?action=progress-7&pid=0&cid=271281&gid=1550&1423219213482&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:08"><![CDATA[http://t.teads.tv/track?action=progress-8&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:09"><![CDATA[http://t.teads.tv/track?action=progress-9&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:10"><![CDATA[http://t.teads.tv/track?action=progress-10&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:11"><![CDATA[http://t.teads.tv/track?action=progress-11&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:12"><![CDATA[http://t.teads.tv/track?action=progress-12&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                      <Tracking event="progress" offset="00:00:13"><![CDATA[http://t.teads.tv/track?action=progress-13&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:14"><![CDATA[http://t.teads.tv/track?action=progress-14&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:15"><![CDATA[http://t.teads.tv/track?action=progress-15&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:16"><![CDATA[http://t.teads.tv/track?action=progress-16&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:17"><![CDATA[http://t.teads.tv/track?action=progress-17&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:18"><![CDATA[http://t.teads.tv/track?action=progress-18&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:19"><![CDATA[http://t.teads.tv/track?action=progress-19&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:20"><![CDATA[http://t.teads.tv/track?action=progress-20&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:21"><![CDATA[http://t.teads.tv/track?action=progress-21&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:22"><![CDATA[http://t.teads.tv/track?action=progress-22&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:23"><![CDATA[http://t.teads.tv/track?action=progress-23&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:24"><![CDATA[http://t.teads.tv/track?action=progress-24&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:25"><![CDATA[http://t.teads.tv/track?action=progress-25&pid=0&cid=271281&gid=1550&1423219213483&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:26"><![CDATA[http://t.teads.tv/track?action=progress-26&pid=0&cid=271281&gid=1550&1423219213484&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:27"><![CDATA[http://t.teads.tv/track?action=progress-27&pid=0&cid=271281&gid=1550&1423219213484&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:28"><![CDATA[http://t.teads.tv/track?action=progress-28&pid=0&cid=271281&gid=1550&1423219213484&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:29"><![CDATA[http://t.teads.tv/track?action=progress-29&pid=0&cid=271281&gid=1550&1423219213484&ignore=true]]></Tracking>
+                     <Tracking event="progress" offset="00:00:30"><![CDATA[http://t.teads.tv/track?action=progress-30&pid=0&cid=271281&gid=1550&1423219213484&ignore=true]]></Tracking>
+                     <Tracking event="start"><![CDATA[http://t.teads.tv/track?action=start&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="firstQuartile"><![CDATA[http://t.teads.tv/track?action=firstQuartile&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="midpoint"><![CDATA[http://t.teads.tv/track?action=midpoint&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="thirdQuartile"><![CDATA[http://t.teads.tv/track?action=thirdQuartile&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="complete"><![CDATA[http://t.teads.tv/track?action=complete&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="pause"><![CDATA[http://t.teads.tv/track?action=pause&cph=[CONTENTPLAYHEAD]&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="resume"><![CDATA[http://t.teads.tv/track?action=resume&cph=[CONTENTPLAYHEAD]&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="mute"><![CDATA[http://t.teads.tv/track?action=mute&cph=[CONTENTPLAYHEAD]&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="unmute"><![CDATA[http://t.teads.tv/track?action=unmute&cph=[CONTENTPLAYHEAD]&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="expand"><![CDATA[http://t.teads.tv/track?action=expand&cph=[CONTENTPLAYHEAD]&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="collapse"><![CDATA[http://t.teads.tv/track?action=collapse&cph=[CONTENTPLAYHEAD]&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="rewind"><![CDATA[http://t.teads.tv/track?action=rewind&cph=[CONTENTPLAYHEAD]&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="skip"><![CDATA[http://t.teads.tv/track?action=skip&cph=[CONTENTPLAYHEAD]&pid=0&cid=271281&gid=1550&1423219213484]]></Tracking>
+                     <Tracking event="close"><![CDATA[http://t.teads.tv/track?action=close&cph=[CONTENTPLAYHEAD]&pid=0&cid=271281&gid=1550&1423219213485]]></Tracking>
+                  </TrackingEvents>
+                  <VideoClicks>
+                     <ClickThrough><![CDATA[http://www.breitling.com/fr/]]></ClickThrough>
+                  </VideoClicks>
+                  <MediaFiles>
+                     <MediaFile bitrate="700" height="360" scalable="true" id="17716" type="video/mp4" maintainAspectRatio="true" delivery="progressive" width="640"><![CDATA[https://cdn.teads.tv/website/breitling.mp4]]></MediaFile>
+                  </MediaFiles>
+               </Linear>
+            </Creative>
+         </Creatives>
+      </InLine>
+   </Ad>
+</VAST>

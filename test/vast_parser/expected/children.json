@@ -1,0 +1,59 @@
+{
+  "vast": {
+    "name": "VAST",
+    "value": [
+      {
+        "ad": {
+          "name": "Ad",
+          "value": [
+            {
+              "inline": {
+                "name": "InLine",
+                "value": [
+                  {
+                    "adsystem": {
+                      "name": "AdSystem",
+                      "value": "Teads Technology",
+                      "attributes": {}
+                    }
+                  },
+                  {
+                    "adtitle": {
+                      "name": "AdTitle",
+                      "value": "Emirate",
+                      "attributes": {}
+                    }
+                  },
+                  {
+                    "impression": {
+                      "name": "Impression",
+                      "value": "",
+                      "attributes": {}
+                    }
+                  },
+                  {
+                    "impression": {
+                      "name": "Impression",
+                      "value": "",
+                      "attributes": {
+                        "id": "bla"
+                      }
+                    }
+                  }
+                ],
+                "attributes": {}
+              }
+            }
+          ],
+          "attributes": {
+            "id": "1291"
+          }
+        }
+      }
+    ],
+    "attributes": {
+      "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "version": "2.0"
+    }
+  }
+}
