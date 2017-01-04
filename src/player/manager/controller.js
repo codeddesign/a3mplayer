@@ -173,7 +173,7 @@ class Controller {
 
                 break;
             case 'error':
-                console.error(data);
+                this.videoEvent('stopped');
 
                 break;
         }

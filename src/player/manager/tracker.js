@@ -62,8 +62,8 @@ class Tracker {
         return this;
     }
 
-    URI(uri) {
-        uri = macro.uri(uri);
+    URI(uri, macros) {
+        uri = macro.uri(uri, macros);
 
         // const image = new Image;
         // image.src = uri;
@@ -74,6 +74,12 @@ class Tracker {
     }
 
     appUri(source, status, tag = false, campaign = false) {
+        if (status instanceof Object) {
+            const key = Object.keys(status)[0];
+
+            status = status[key];
+        }
+
         const data = object_to_query({
             source,
             status,
@@ -132,6 +138,7 @@ class Tracker {
                 }
 
                 if (name == 'error') {
+                    name = { errorcode: data };
                     _uris = this.manager().ad().error();
                 }
             }
@@ -182,7 +189,7 @@ class Tracker {
         }
 
         uris.forEach((uri) => {
-            this.URI(uri);
+            this.URI(uri, status);
         });
 
         return this;

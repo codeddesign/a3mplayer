@@ -254,6 +254,7 @@ class Manager {
             case 'skipped':
             case 'stopped':
             case 'complete':
+            case 'error':
                 this.ad()._played = true;
 
                 break;

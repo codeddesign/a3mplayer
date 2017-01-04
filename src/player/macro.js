@@ -18,11 +18,13 @@ class Macro {
             .set('ip_address', 0);
     }
 
-    uri(_uri) {
-        Object.keys(this.$mapped).forEach((key) => {
+    uri(_uri, macros = {}) {
+        macros = Object.assign({}, macros, this.$mapped);
+
+        Object.keys(macros).forEach((key) => {
             _uri = _uri.replace(
                 new RegExp(`\\[${key}\\]`, 'gi'),
-                this.$mapped[key]
+                encodeURIComponent(macros[key])
             );
         });
 
