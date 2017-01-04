@@ -249,6 +249,12 @@ class VPAIDFlash {
 
         // console.info('vpaid event', name);
 
+        if (name == 'Error') {
+            console.error('vpaid', data);
+
+            data = data.errorcode || data.message || 900;
+        }
+
         this.manager().videoListener(name, data);
 
         return this;
