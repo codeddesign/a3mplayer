@@ -42,6 +42,13 @@ a3m-slot, a3m-youtube {
 }
 
 
+/** Others */
+
+.hidden {
+    display: none;
+}
+
+
 /** Transitions */
 
 .slide {

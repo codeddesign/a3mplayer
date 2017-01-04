@@ -261,6 +261,18 @@ class Element {
 
         this.node.dispatchEvent(event);
     }
+
+    show() {
+        this.removeClass('hidden');
+
+        return this;
+    }
+
+    hide() {
+        this.addClass('hidden');
+
+        return this;
+    }
 }
 
 export default (node) => new Element(node);

@@ -17,7 +17,7 @@ class Player {
         const template = `<a3m-wrapper data-campaign="${source.id}">
             <a3m-filler></a3m-filler>
             <a3m-container class="slide slided">
-                <a3m-loader>
+                <a3m-loader class="hidden">
                     <a3m-loader-in class="shape-one"></a3m-loader-in>
                     <a3m-loader-in class="shape-two"></a3m-loader-in>
                     <a3m-loader-in class="shape-three"></a3m-loader-in>
@@ -33,6 +33,7 @@ class Player {
             wrapper,
             filler: wrapper.find('a3m-filler'),
             container: wrapper.find('a3m-container'),
+            loader: wrapper.find('a3m-loader'),
             slot: wrapper.find('a3m-slot')
         };
 

@@ -81,6 +81,10 @@ class Controller {
         return this.player().els('container');
     }
 
+    loader() {
+        return this.player().els('loader');
+    }
+
     statusUpdate(status = {}) {
         Object.keys(status).forEach((key) => {
             this.$status[key] = status[key];
@@ -92,7 +96,7 @@ class Controller {
     videoEvent(name, data) {
         switch (name) {
             case 'initiating':
-                // loading..
+                this.loader().show();
 
                 break;
             case 'loaded':
