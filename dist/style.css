@@ -56,6 +56,10 @@ a3m-slot, a3m-youtube {
     /* interesting effect with it */
 }
 
+a3m-slot > video {
+    cursor: pointer;
+}
+
 
 /** Facebook filler */
 

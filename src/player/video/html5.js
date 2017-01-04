@@ -191,6 +191,12 @@ class HTML5 {
             this._event('error', 403);
         }
 
+        this.unit().onclick = (e) => {
+            this.manager().videoListener('clickthrough');
+
+            window.open(this.manager().creative().clickThrough());
+        }
+
         return this;
     }
 
