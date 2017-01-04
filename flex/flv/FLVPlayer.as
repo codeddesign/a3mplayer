@@ -16,6 +16,8 @@ package {
 
     import flash.system.Security;
 
+    import flash.events.NetStatusEvent;
+
 
     [SWF(backgroundColor="0xec9900" , width="640" , height="360")]
     public class FLVPlayer extends Sprite {
@@ -56,6 +58,9 @@ package {
         private function setNetStream():void {
             ns = new NetStream(nc);
 
+            // Error management
+            ns.addEventListener(NetStatusEvent.NET_STATUS, onFailure);
+
             // Client metadata callback
             client = new Object();
             client.onMetaData = onMetaData;
@@ -66,6 +71,24 @@ package {
             nsVol = new SoundTransform(volume);
 
             ns.soundTransform = nsVol;
+        }
+
+        private function closeNetStream():void {
+            ns.close();
+            removeChild(vid);
+            vid.attachNetStream(null);
+        }
+
+        private function onFailure(ev:NetStatusEvent):void {
+            if(ev.info.level == 'error') {
+                closeNetStream();
+
+                callInterface('event', 'error', 403);
+
+                return;
+            }
+
+            // ExternalInterface.call('console.log', ev.info);
         }
 
         private function setVideo():void {
@@ -128,7 +151,7 @@ package {
                 'duration': _data.duration
             });
 
-            adjustVideoHeight();
+            // adjustVideoHeight();
         }
 
         private function addMethods():void {
