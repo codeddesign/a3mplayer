@@ -160,7 +160,7 @@ class Controller {
     }
 
     _fill() {
-        if (this.isFilled()) {
+        if (this.manager().startedOnce() || this.isFilled()) {
             return this;
         }
 

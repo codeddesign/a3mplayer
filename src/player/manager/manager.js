@@ -13,6 +13,8 @@ class Manager {
     constructor(player) {
         this.$player = player;
 
+        this.$startedOnce = false;
+
         this.initialize();
     }
 
@@ -47,6 +49,13 @@ class Manager {
      */
     player() {
         return this.$player;
+    }
+
+    /**
+     * @return {Boolean}
+     */
+    startedOnce() {
+        return this.$startedOnce;
     }
 
     /**
@@ -240,6 +249,10 @@ class Manager {
 
         // manage current ad
         switch (name) {
+            case 'started':
+                this.$startedOnce = true;
+
+                break;
             case 'skipped':
             case 'stopped':
             case 'complete':
