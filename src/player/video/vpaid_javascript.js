@@ -1,4 +1,5 @@
 import macro from '../macro';
+import $ from '../../utils/element';
 
 class VPAIDJavaScript {
     constructor(manager) {
@@ -50,17 +51,21 @@ class VPAIDJavaScript {
 
     create() {
         const self = this,
-            attrs = {
+            $target = this.manager().player().slot(),
+            template = '<iframe src="about:self" style="border:0;width:100%;height:100%"></iframe>',
+            _window = $target.html(template).node.contentWindow,
+            _iframe = _window.document;
+
+        const attrs = {
                 src: this.manager().media().source()
             },
             events = {
                 onload() {
-                    self.loadUnit(window['getVPAIDAd']());
+                    self.loadUnit(_window['getVPAIDAd']());
                 }
             };
 
-        this.manager().player().slot().parent()
-            .append('script', attrs, events);
+        $(_iframe).find('head').append('script', attrs, events);
 
         return this;
     }
