@@ -18,7 +18,7 @@ export class Asset {
         return $().find(this.selector(), false)
     }
 
-    load(target) {
+    load(element) {
         return new Promise((resolve, reject) => {
             const name = this.info.name;
             this.info.events = {
@@ -28,7 +28,7 @@ export class Asset {
             }
 
             if (!this.exists()) {
-                target.append(this.info.tag, this.info.attributes, this.info.events);
+                element.append(this.info.tag, this.info.attributes, this.info.events);
 
                 return this;
             }

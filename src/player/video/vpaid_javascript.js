@@ -59,7 +59,7 @@ class VPAIDJavaScript {
                 }
             };
 
-        this.manager().player().target().parent()
+        this.manager().player().slot().parent()
             .append('script', attrs, events);
 
         return this;
@@ -68,7 +68,7 @@ class VPAIDJavaScript {
     loadUnit(unit) {
         this.$unit = unit;
 
-        this.$unit.slot = this.manager().player().target().node;
+        this.$unit.slot = this.manager().player().slot().node;
 
         this.$events.forEach((name) => {
             this.$unit.subscribe(() => { this._event(name); }, `Ad${name}`);

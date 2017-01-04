@@ -1,6 +1,6 @@
 import macro from '../macro';
-
-// @@todo: add own tracking links
+import scriptSource from '../../source';
+import { object_to_query } from '../../utils/parse_link';
 
 class Tracker {
     constructor(manager) {
@@ -9,6 +9,8 @@ class Tracker {
         this.$checkPoints = {};
         this.$checked = new Set();
         this.$progressed = new Set();
+
+        this.$avoid = new Set(['timeupdate']);
 
         this.$sources = {
             ad: new Set([
@@ -24,7 +26,9 @@ class Tracker {
                 'skip',
                 'pause',
                 'resume',
-                'timeupdate'
+                'timeupdate',
+                'mute',
+                'unmute'
             ]),
             clicks: new Set([
                 'clicktracking'
@@ -36,6 +40,7 @@ class Tracker {
             clickthrough: 'clicktracking',
             skipped: 'skip',
             playing: 'resume',
+            paused: 'pause',
             volumechange: () => {
                 return this.manager().video().volume() ? 'unmute' : 'mute';
             }
@@ -60,17 +65,43 @@ class Tracker {
     URI(uri) {
         uri = macro.uri(uri);
 
-        // @@uncomment:
         // const image = new Image;
         // image.src = uri;
 
-        // @@remove:
         console.log(uri);
 
         return this;
     }
 
-    event(name, data) {
+    appUri(source, status, tag = false, campaign = false) {
+        const data = object_to_query({
+            source,
+            status,
+            tag,
+            campaign: campaign || '[campaign_id]',
+            referrer: '[referrer_url]'
+        });
+
+        return macro.uri(`${scriptSource.path}/track?${data}`);
+    }
+
+    campaignEvent(campaign, status) {
+        this.URI(
+            this.appUri('campaign', status, false, campaign)
+        );
+
+        return this;
+    }
+
+    tagEvent(tag, status) {
+        this.URI(
+            this.appUri('tag', status, tag)
+        );
+
+        return this;
+    }
+
+    videoEvent(name, data) {
         name = name.replace('video', '');
 
         let alias = false;
@@ -82,7 +113,7 @@ class Tracker {
             }
         }
 
-        if (name != 'timeupdate') {
+        if (!this.$avoid.has(name)) {
             console.info('@track:', name);
         }
 
@@ -120,7 +151,7 @@ class Tracker {
                         if (!this.$checked.has(point) && data >= _checkPointTime) {
                             this.$checked.add(point);
 
-                            this.event(point);
+                            this.videoEvent(point);
                         }
                     });
                 } else {
@@ -132,11 +163,24 @@ class Tracker {
                 _uris = this.manager().creative().videoClick(name);
             }
 
-            this._trackEventURIs(name, _uris);
+            this._trackEventURIs('ad', name, _uris);
         });
+
+        return this;
     }
 
-    _trackEventURIs(name, uris = []) {
+    _trackEventURIs(source, status, uris = []) {
+        if (!this.$avoid.has(status)) {
+            uris.push(
+                this.appUri(
+                    source,
+                    status,
+                    this.manager().tag().id(),
+                    this.manager().player().campaign().id()
+                )
+            );
+        }
+
         uris.forEach((uri) => {
             this.URI(uri);
         });
@@ -144,5 +188,9 @@ class Tracker {
         return this;
     }
 }
+
+export const track = () => {
+    return new Tracker();
+};
 
 export default Tracker;

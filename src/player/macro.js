@@ -14,6 +14,7 @@ class Macro {
             .set('width', 0)
             .set('height', 0)
             .set('timestamp', 0)
+            .set('campaign_id', 0)
             .set('ip_address', 0);
     }
 
@@ -44,9 +45,13 @@ class Macro {
         return this.set('ip_address', ip);
     }
 
+    setCampaign(id) {
+        return this.set('campaign_id', id);
+    }
+
     setSizes({ width, height }) {
-        this.set('width', width)
-            .set('height', height);
+        this.set('width', width || 640)
+            .set('height', height || 360);
 
         return this;
     }

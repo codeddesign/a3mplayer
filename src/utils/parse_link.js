@@ -32,6 +32,28 @@ let query_to_object = (query) => {
 }
 
 /**
+ * Transforms given object to a
+ * link query
+ *
+ * @param {Object} obj
+ *
+ * @return {String}
+ */
+export const object_to_query = (obj) => {
+    const inline = [];
+
+    Object.keys(obj).forEach((key) => {
+        inline.push(`${key}=${obj[key]}`);
+    });
+
+    if (!inline.length) {
+        return '';
+    }
+
+    return inline.join('&');
+}
+
+/**
  * Returns information about a link.
  */
 export const parse_link = (path) => {

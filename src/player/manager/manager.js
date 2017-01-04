@@ -1,29 +1,45 @@
 import bestMedia from './media';
 import Tracker from './tracker';
+import { track } from './tracker';
+import Controller from './controller';
 import HTML5 from '../video/html5';
 import Flash from '../video/flash';
 import VPAIDFlash from '../video/vpaid_flash';
 import VPAIDJavaScript from '../video/vpaid_javascript';
 import device from '../../utils/device';
+import VastError from '../../vast/error';
 
 class Manager {
     constructor(player) {
         this.$player = player;
 
+        this.initialize();
+    }
+
+    initialize() {
         this.$tag = false;
         this.$ad = false;
         this.$creative = false;
         this.$media = false;
 
         this.$tracker = false;
+        this.$controller = false;
+
         this.$video = false;
 
         this.setTag()
+            .nextTagAd();
+    }
+
+    nextTagAd() {
+        this.setTracker()
+            .setController()
             .setAd()
             .setCreative()
             .setMediaFile()
-            .setTracker()
             .createVideo();
+
+        return this;
     }
 
     /**
@@ -76,6 +92,13 @@ class Manager {
     }
 
     /**
+     * @return {Controller}
+     */
+    controller() {
+        return this.$controller;
+    }
+
+    /**
      * Set current tag.
      */
     setTag() {
@@ -90,7 +113,7 @@ class Manager {
         });
 
         if (!this.tag()) {
-            console.info('No tag to play');
+            console.warn('No tag with ads to play.');
         }
 
         return this;
@@ -111,8 +134,12 @@ class Manager {
         });
 
         if (!this.ad()) {
-            console.warn('All ads from this tag were played');
+            console.warn('All ads from this tag were played.');
+
+            return this;
         }
+
+        this.controller().videoEvent('initiating');
 
         return this;
     }
@@ -132,7 +159,7 @@ class Manager {
         });
 
         if (!this.creative()) {
-            console.warn('No linear creatives');
+            console.warn('No linear creatives.');
         }
 
         return this;
@@ -167,6 +194,12 @@ class Manager {
         return this;
     }
 
+    setController() {
+        this.$controller = new Controller(this);
+
+        return this;
+    }
+
     createVideo() {
         if (!this.media()) {
             return this;
@@ -194,8 +227,7 @@ class Manager {
 
                 break;
             default:
-                // @@report extension
-                console.warn('Unhandled ', this.media().type());
+                this.tag().vastError(403, `Media type: ${this.media().type()}`);
 
                 break;
         }
@@ -204,33 +236,19 @@ class Manager {
     videoListener(name, data) {
         name = name.toLowerCase();
 
-        this.tracker().event(name, data);
+        this.tracker().videoEvent(name, data);
 
-        const tag = this.tag(),
-            creative = this.creative(), // click events
-            ad = this.ad(),
-            video = this.video();
-
+        // manage current ad
         switch (name) {
-            case 'error':
-                console.error(data);
-
-                break;
-            case 'loaded':
-                video.start();
-
-                break;
+            case 'skipped':
             case 'stopped':
-                ad._played = true;
-
-                if (tag.finished()) {
-                    tag.schedule(this.player());
-
-                    this.player().initialize();
-                }
+            case 'complete':
+                this.ad()._played = true;
 
                 break;
         }
+
+        this.controller().videoEvent(name, data);
     }
 }
 

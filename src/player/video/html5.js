@@ -1,11 +1,18 @@
+import Animator from './animator';
+import $ from '../../utils/element';
+import device from '../../utils/device';
+
 class HTML5 {
     constructor(manager) {
         this.$manager = manager;
 
-        this.$node = false;
+        this.$unit = false;
 
         this.$stopped = false;
         this.$paused = false;
+
+        this.$loaded = false;
+        this.$animator = false;
 
         this.create();
     }
@@ -15,36 +22,50 @@ class HTML5 {
     }
 
     create() {
-        this.$node = this.manager().player().target().html(this.template()).node;
+        this.$unit = this.manager().player().slot().html(this.template()).node;
 
-        this._extendNode();
+        this._extendUnit();
 
-        this.loadUnit();
-    }
-
-    manager() {
-        return this.$manager;
-    }
-
-    node() {
-        return this.$node;
-    }
-
-    loadUnit() {
         const attrs = {
             type: this.manager().media().type(),
             src: this.manager().media().source()
         };
 
         Object.keys(attrs).forEach((key) => {
-            this.node().setAttribute(key, attrs[key]);
+            this.unit().setAttribute(key, attrs[key]);
         });
+
+        if (device.iphone()) {
+            $().sub('touchend', () => {
+                if (this.$loaded) {
+                    return false;
+                }
+
+                this.$loaded = true;
+
+                this.loadUnit();
+
+                this._attachAnimator();
+            });
+        }
+    }
+
+    manager() {
+        return this.$manager;
+    }
+
+    unit() {
+        return this.$unit;
+    }
+
+    loadUnit() {
+        this.unit().load();
 
         return this;
     }
 
     start() {
-        this.node().play();
+        this.unit().play();
 
         return this;
     }
@@ -52,13 +73,13 @@ class HTML5 {
     stop(skipped = false) {
         this.$stopped = true;
 
-        const duration = this.node().duration;
+        const duration = this.unit().duration;
 
-        this.node().currentTime = (isNaN(duration) || !duration) ? 0 : duration;
+        this.unit().currentTime = (isNaN(duration) || !duration) ? 0 : duration;
 
         if (!skipped) {
-            this._event('stopped')
-                ._event('videocomplete');
+            this._event('videocomplete')
+                ._event('stopped');
         }
 
         return this;
@@ -67,7 +88,7 @@ class HTML5 {
     pause() {
         this.$paused = true;
 
-        this.node().pause();
+        this.unit().pause();
 
         return this;
     }
@@ -79,23 +100,26 @@ class HTML5 {
     }
 
     skip() {
+        this._event('skipped')
+            ._event('stopped');
+
         this.stop(true);
 
-        this._event('skipped');
+        return this;
     }
 
     volume(volume = false) {
         if (volume === false) {
-            return (this.node().muted == false) ? 1 : 0;
+            return (this.unit().muted == false) ? 1 : 0;
         }
 
         volume = (volume == 0) ? true : false
 
-        if (volume == this.node().muted) {
+        if (volume == this.unit().muted) {
             return this;
         }
 
-        this.node().muted = volume;
+        this.unit().muted = volume;
 
         return this;
     }
@@ -104,7 +128,7 @@ class HTML5 {
         // console.info('html5 event', name);
 
         if (name == 'loaded') {
-            this.manager().tracker().setCheckPoints(this.node().duration);
+            this.manager().tracker().setCheckPoints(this.unit().duration);
         }
 
         this.manager().videoListener(name, data);
@@ -112,8 +136,8 @@ class HTML5 {
         return this;
     }
 
-    _extendNode() {
-        this.node().oncanplaythrough = () => {
+    _extendUnit() {
+        this.unit().oncanplaythrough = () => {
             if (this.$stopped) {
                 return false;
             }
@@ -121,7 +145,7 @@ class HTML5 {
             this._event('loaded');
         };
 
-        this.node().onplay = () => {
+        this.unit().onplay = () => {
             if (this.$paused) {
                 this.$paused = false;
 
@@ -134,13 +158,13 @@ class HTML5 {
                 ._event('videostart');
         }
 
-        this.node().onpause = () => {
+        this.unit().onpause = () => {
             // Gets triggered on stop()
             if (this.$stopped) {
                 return false;
             }
 
-            if (this.node().currentTime >= this.node().duration) {
+            if (this.unit().currentTime >= this.unit().duration) {
                 this.stop();
 
                 return false;
@@ -149,15 +173,25 @@ class HTML5 {
             this._event('paused');
         }
 
-        this.node().ontimeupdate = (e) => {
-            const time = e.timeStamp / 1000;
+        this.unit().ontimeupdate = (e) => {
+            if (this.$stopped) {
+                return false;
+            }
 
-            this._event('timeupdate', time);
+            if (this.unit().currentTime <= this.unit().duration) {
+                this._event('timeupdate', this.unit().currentTime);
+            }
         }
 
-        this.node().onvolumechange = (e) => {
+        this.unit().onvolumechange = (e) => {
             this._event('volumechange');
         }
+
+        return this;
+    }
+
+    _attachAnimator() {
+        this.$animator = new Animator(this.unit());
 
         return this;
     }

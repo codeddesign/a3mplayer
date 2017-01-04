@@ -17,14 +17,33 @@ class Campaign {
     constructor(response) {
         extend_object(this, response, ['campaign']);
 
+        macro.setIp(this.ip())
+            .setCampaign(this.id());
+
+        this.$player = false;
+
         this.$nonguaranteed = [];
         this.$guaranteed = [];
         this.$loaded = [];
 
         this.separateTags()
             .sortTags();
+    }
 
-        macro.setIp(this.ip());
+    /**
+     * @return {Player}
+     */
+    player() {
+        return this.$player;
+    }
+
+    /**
+     * @param {Player} player
+     */
+    addPlayer(player) {
+        this.$player = player;
+
+        return this;
     }
 
     /**
@@ -41,7 +60,7 @@ class Campaign {
             guaranteed = [];
 
         this.$tags.forEach((tag, index) => {
-            tag = new Tag(tag);
+            tag = new Tag(tag, this);
 
             if (tag.isGuaranteed()) {
                 guaranteed.push(tag);
@@ -148,9 +167,6 @@ class Campaign {
             Promise.all(promises)
                 .then((finished) => {
                     resolve(finished);
-                })
-                .catch((e) => {
-                    console.error('tags all catch', e);
                 });
         });
     }

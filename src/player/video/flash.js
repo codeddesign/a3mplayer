@@ -1,5 +1,5 @@
 import macro from '../macro';
-import source from '../../source';
+import scriptSource from '../../source';
 import random from '../../utils/random';
 
 class Flash {
@@ -29,7 +29,7 @@ class Flash {
         return `<object type="application/x-shockwave-flash"
             width="${this.$config.width}"
             height="${this.$config.height}"
-            data="${source.path}/flv.swf">
+            data="${scriptSource.path}/flv.swf">
             <param name="wmode" value="transparent"></param>
             <param name="allowScriptAccess" value="always"></param>
             <param name="quality" value="high"></param>
@@ -40,7 +40,7 @@ class Flash {
     create() {
         this._addWindowListener();
 
-        this.$unit = this.manager().player().target().html(this.template()).node;
+        this.$unit = this.manager().player().slot().html(this.template()).node;
 
         return this;
     }

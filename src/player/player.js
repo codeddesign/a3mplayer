@@ -2,30 +2,39 @@ import macro from './macro';
 import Manager from './manager/manager';
 import { request_campaign } from './request';
 import $ from '../utils/element';
+import { create } from '../utils/element';
 
 class Player {
     constructor() {
-        this.$target = false;
+        this.$els = {};
 
         this.$campaign = false;
 
         this.$manager = false;
     }
 
-    setTarget(source) {
-        this.$target = source.script.replace('div', {
-            className: 'a3mplayer',
-            data: {
-                campaign: source.id
-            }
-        });
+    create(source) {
+        const template = `<a3m-wrapper data-campaign="${source.id}">
+            <a3m-filler></a3m-filler>
+            <a3m-container class="slide slided">
+                <a3m-loader>
+                    <a3m-loader-in class="shape-one"></a3m-loader-in>
+                    <a3m-loader-in class="shape-two"></a3m-loader-in>
+                    <a3m-loader-in class="shape-three"></a3m-loader-in>
+                </a3m-loader>
+                <a3m-youtube></a3m-youtube>
+                <a3m-slot></a3m-slot>
+            </a3m-container>
+        </a3m-wrapper>`;
 
-        this.$target.size({
-            maxWidth: 640,
-            maxHeight: 360,
-            minWidth: 640,
-            minHeight: 360
-        });
+        const wrapper = source.script.replaceHtml(template);
+
+        this.$els = {
+            wrapper,
+            filler: wrapper.find('a3m-filler'),
+            container: wrapper.find('a3m-container'),
+            slot: wrapper.find('a3m-slot')
+        };
 
         return this;
     }
@@ -33,8 +42,15 @@ class Player {
     /**
      * @return {Element|Boolean}
      */
-    target() {
-        return this.$target;
+    els(name) {
+        return this.$els[name];
+    }
+
+    /**
+     * @return {Element|Boolean}
+     */
+    slot() {
+        return this.els('slot');
     }
 
     /**
@@ -51,15 +67,38 @@ class Player {
         return this.$manager;
     }
 
-    initialize() {
-        this.$manager = new Manager(this);
+    /**
+     * Helper method.
+     *
+     * @return {Controller}
+     */
+    controller() {
+        return this.manager().controller();
     }
 
+    /**
+     * Initialize manager one time only.
+     *
+     * @return {Player}
+     */
+    initialize() {
+        if (!this.$manager) {
+            this.$manager = new Manager(this);
+        }
+
+        return this;
+    }
+
+    /**
+     * Schedule tags one time only.
+     *
+     * @return {Player}
+     */
     scheduleTags() {
         this.campaign().loaded()
             .forEach((tag, index) => {
                 if (tag.failed()) {
-                    tag.schedule(this, index);
+                    tag.schedule();
                 }
             });
 
@@ -74,55 +113,46 @@ class Player {
      * @return {Player}
      */
     tagListener() {
-        console.log('some tag was updated this time and has some ads..');
+        console.info('One tag was updated this time and has some ads..');
 
-        // if no ad is playing.. handle it..
+        if (!this.manager().tag() || !this.controller().isPlaying()) {
+            this.manager().initialize();
+        }
 
         return this;
     }
 }
 
 /**
- * Makes the request to given uri/source and
+ * Makes the request to given campaign id and
  * then it sets the campaign that loads the tags.
  *
  * Makes an attempt to play
  * and schedules failed ones.
  *
- * @param {String|Source} uri
- *
  * @return {Promise}
  */
 export default (source) => {
-    const uri = `${source.path}/campaign/${source.id}.json`,
-        player = new Player(source);
+    const player = new Player(source);
 
-    player.setTarget(source);
+    player.create(source);
 
-    macro.setSizes(
-        player.target().size()
-    );
+    macro.setSizes(player.slot().size());
 
     return new Promise((resolve, reject) => {
-        request_campaign(uri)
+        request_campaign(source)
             .then((campaign) => {
+                campaign.addPlayer(player);
+
                 player.$campaign = campaign;
+
                 if (!player.campaign().loaded().length) {
-                    // @@todo: error logging
-                    console.error(`No tags available for current browser.`);
+                    console.warn(`No tags available for current browser.`);
 
                     return false;
                 }
 
                 player.initialize();
-
-                $().sub('touchend', () => {
-                    // @@todo: loadUnit checks for mobile
-
-                    // player.manager().video().node().load(); // works for html5
-
-                    // player.manager().video().unit().load(); // ..
-                })
 
                 player.scheduleTags();
 

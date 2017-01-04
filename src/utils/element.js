@@ -186,6 +186,21 @@ class Element {
         return this.before(tag, properties, events, true);
     }
 
+    replaceHtml(content) {
+        let virtual = create('div'),
+            fresh;
+
+        virtual.innerHTML = content.trim();
+
+        this.parent().node.insertBefore(virtual.firstChild, this.node.nextSibling);
+
+        fresh = this.node.nextSibling;
+
+        this.node.remove();
+
+        return new Element(fresh);
+    }
+
     select() {
         this.node.select();
 
@@ -194,6 +209,25 @@ class Element {
 
     bounds() {
         return this.node.getBoundingClientRect();
+    }
+
+    inView() {
+        const bottomPixels = 10, // extra button pixels required
+            bounds = this.bounds(),
+            fullHeight = bounds.height || 360,
+            halfHeight = fullHeight / 2,
+            topAbs = Math.abs(bounds.top),
+            diffAbs = window.innerHeight - topAbs,
+            inView = bounds.top < window.innerHeight && bounds.bottom > 0,
+            inViewPercentage = diffAbs >= (halfHeight + bottomPixels),
+            mustPause = (bounds.top < 0 && topAbs >= halfHeight) || (diffAbs <= halfHeight) || false,
+            mustPlay = inView && inViewPercentage && !mustPause;
+
+        return {
+            mustPlay,
+            mustPause,
+            diffAbs
+        };
     }
 
     offset() {

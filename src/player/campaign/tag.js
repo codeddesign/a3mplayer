@@ -1,5 +1,6 @@
 import { request_tag } from '../request';
 import macro from '../macro';
+import { track } from '../manager/tracker';
 import VastError from '../../vast/error';
 import device from '../../utils/device';
 import { extend_object } from '../../utils/extend_object';
@@ -10,11 +11,14 @@ class Tag {
      * received after a /campaign request.
      *
      * @param {Object} info
+     * @param {Campaign} campaign
      *
      * @return {Tag}
      */
-    constructor(info) {
+    constructor(info, campaign) {
         extend_object(this, info);
+
+        this.$campaign = campaign;
 
         this.$vast = false;
         this.$failed = false;
@@ -32,6 +36,13 @@ class Tag {
         this.$failed = false;
 
         return this;
+    }
+
+    /**
+     * @return {Campaign}
+     */
+    campaign() {
+        return this.$campaign;
     }
 
     /**
@@ -135,6 +146,11 @@ class Tag {
      */
     finished() {
         let finished = true;
+
+        if (!this.vast()) {
+            return finished;
+        }
+
         this.vast().ads().forEach((ad) => {
             if (!ad._played) {
                 finished = false;
@@ -153,6 +169,16 @@ class Tag {
         return this.$attempts;
     }
 
+    vastError(code, info) {
+        this.$failed = new VastError(code, info);
+
+        console.error(this.failed());
+
+        track().tagEvent(this.id(), code);
+
+        return this;
+    }
+
     /**
      * Makes a request to given tag.
      *
@@ -169,6 +195,12 @@ class Tag {
                     try {
                         this.$vast = vast;
 
+                        if (!vast) {
+                            resolve(this);
+
+                            return false;
+                        }
+
                         if (!vast.hasAds()) {
                             throw new VastError(303);
                         }
@@ -179,14 +211,10 @@ class Tag {
 
                         resolve(this);
                     } catch (e) {
-                        // @@todo: error logging
-                        console.error(e);
+                        this.vastError(e.code)
 
                         resolve(this);
                     }
-                })
-                .catch((e) => {
-                    console.error('request tag catch', e);
                 });
         });
     }
@@ -196,26 +224,21 @@ class Tag {
      * with the given delay.
      *
      * Notifies player when a tag gets loaded and
-     * also has ads using player.tagLoaded()
-     *
-     * @param {Player} player
+     * also has ads using player.tagListener()
      *
      * @return {Tag}
      */
-    schedule(player) {
+    schedule() {
         setTimeout(() => {
-            this.request(player)
+            this.request()
                 .then(() => {
                     if (this.failed()) {
-                        this.schedule(player);
+                        this.schedule();
 
                         return this;
                     }
 
-                    player.tagListener();
-                })
-                .catch((e) => {
-                    console.error('schedule tag catch', e);
+                    this.campaign().player().tagListener();
                 });
         }, this.delay());
 
@@ -223,6 +246,6 @@ class Tag {
     }
 }
 
-export default (info) => {
-    return (new Tag(info));
+export default (info, campaign) => {
+    return (new Tag(info, campaign));
 };

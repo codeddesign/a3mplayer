@@ -1,4 +1,5 @@
 import Campaign from './campaign/campaign';
+import { track } from './manager/tracker';
 import vastLoadXML from '../vast/base';
 import ajax from '../utils/ajax';
 
@@ -6,25 +7,32 @@ import ajax from '../utils/ajax';
  * Makes a request to campaign uri.
  * Then it makes requests to tags that can be loaded.
  *
- * @param {String} uri
+ * @param {Source} source
  *
  * @return {Promise}
  */
-export const request_campaign = (uri) => {
+export const request_campaign = (source) => {
+    const uri = `${source.path}/campaign/${source.id}`;
+
     return new Promise((resolve, reject) => {
-        ajax().json(uri, (response, status) => {
-            const campaign = new Campaign(response);
+        ajax().json(uri)
+            .then((response) => {
+                track().campaignEvent(source.id, response.status);
 
-            campaign.requestTags()
-                .then((tags) => {
-                    campaign.$loaded = tags;
+                const campaign = new Campaign(response.text);
 
-                    resolve(campaign);
-                })
-                .catch((e) => {
-                    console.error('request campaign catch', e);
-                });
-        });
+                campaign.requestTags()
+                    .then((tags) => {
+                        campaign.$loaded = tags;
+
+                        resolve(campaign);
+                    })
+            })
+            .catch((e) => {
+                console.error(e);
+
+                track().campaignEvent(source.id, e.code);
+            });
     });
 };
 
@@ -40,9 +48,11 @@ export const request_campaign = (uri) => {
  */
 export const request_tag = (uri, config = {}, mainVast = false, wrapperIndex = false) => {
     return new Promise((resolve, reject) => {
-        ajax().get(uri, (text) => {
-            try {
-                const vast = vastLoadXML(text),
+        ajax().get(uri)
+            .then((response) => {
+                track().tagEvent(config.id(), response.status);
+
+                const vast = vastLoadXML(response.text),
                     wrappers = vast.ads().withType('wrapper'),
                     promises = [];
 
@@ -85,7 +95,7 @@ export const request_tag = (uri, config = {}, mainVast = false, wrapperIndex = f
                             resolve(finished);
                         })
                         .catch((e) => {
-                            console.error('request tags all catch', e);
+                            reject(e);
                         });
 
                     return false;
@@ -116,12 +126,13 @@ export const request_tag = (uri, config = {}, mainVast = false, wrapperIndex = f
                 }
 
                 resolve(mainVast);
-            } catch (e) {
-                // @@todo: logging only
-                console.log(e);
+            })
+            .catch((e) => {
+                console.error(e);
+
+                track().tagEvent(config.id(), e.code);
 
                 resolve(mainVast);
-            }
-        });
+            });
     });
 };

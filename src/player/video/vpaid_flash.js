@@ -1,5 +1,5 @@
 import macro from '../macro';
-import source from '../../source';
+import scriptSource from '../../source';
 import random from '../../utils/random';
 
 class VPAIDFlash {
@@ -30,7 +30,7 @@ class VPAIDFlash {
         return `<object type="application/x-shockwave-flash"
             width="${this.$config.width}"
             height="${this.$config.height}"
-            data="${source.path}/vpaid.swf">
+            data="${scriptSource.path}/vpaid.swf">
             <param name="wmode" value="transparent"></param>
             <param name="salign" value="tl"></param>
             <param name="align" value="left"></param>
@@ -45,7 +45,7 @@ class VPAIDFlash {
     create() {
         this._addWindowListener();
 
-        this.$unit = this.manager().player().target().html(this.template()).node;
+        this.$unit = this.manager().player().slot().html(this.template()).node;
 
         return this;
     }
@@ -111,18 +111,30 @@ class VPAIDFlash {
     }
 
     pause() {
+        if (!this._unitHasFunction('pauseAd')) {
+            return this;
+        }
+
         this.unit().pauseAd([this.id()]);
 
         return this;
     }
 
     resume() {
+        if (!this._unitHasFunction('resumeAd')) {
+            return this;
+        }
+
         this.unit().resumeAd([this.id()]);
 
         return this;
     }
 
     skip() {
+        if (!this._unitHasFunction('skipAd')) {
+            return this;
+        }
+
         this.unit().skipAd([this.id()]);
 
         return this;
@@ -131,6 +143,10 @@ class VPAIDFlash {
     volume(volume = false) {
         if (volume === false) {
             return this.$volume;
+        }
+
+        if (!this._unitHasFunction('setAdVolume')) {
+            return this;
         }
 
         this.$volume = volume;
@@ -146,6 +162,10 @@ class VPAIDFlash {
 
     resize(size = {}) {
         const { width, height } = size;
+
+        if (!this._unitHasFunction('resizeAd')) {
+            return this;
+        }
 
         this.unit().resizeAd([this.id(), width, height, this.$config.view]);
 
@@ -172,6 +192,14 @@ class VPAIDFlash {
         };
 
         return this;
+    }
+
+    _unitHasFunction(name) {
+        if (!this.unit() || typeof this.unit()[name] != 'function') {
+            return false;
+        }
+
+        return true;
     }
 
     _calledOnce(name) {
