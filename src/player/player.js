@@ -115,6 +115,10 @@ class Player {
     tagListener() {
         console.info('One tag was updated this time and has some ads..');
 
+        if (this.controller().isFilled()) {
+            return this;
+        }
+
         if (!this.manager().tag() || !this.controller().isPlaying()) {
             this.manager().initialize();
         }

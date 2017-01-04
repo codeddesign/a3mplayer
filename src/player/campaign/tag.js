@@ -229,6 +229,10 @@ class Tag {
      * @return {Tag}
      */
     schedule() {
+        if (this.campaign().player().controller().isFilled()) {
+            return this;
+        }
+
         setTimeout(() => {
             this.request()
                 .then(() => {

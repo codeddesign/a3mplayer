@@ -10,7 +10,8 @@ class Controller {
             playing: false,
             paused: false,
             stopped: true,
-            skipped: false
+            skipped: false,
+            filled: false
         };
 
         this._addListeners();
@@ -62,6 +63,10 @@ class Controller {
 
     isStopped() {
         return this.status().stopped;
+    }
+
+    isFilled() {
+        return this.status().filled;
     }
 
     wrapper() {
@@ -154,6 +159,33 @@ class Controller {
         }
     }
 
+    _fill() {
+        if (this.isFilled()) {
+            return this;
+        }
+
+        if (this.wrapper().inView().diffAbs < config.filler.pixels) {
+            return this;
+        }
+
+        if (typeof window.adsbygoogle == 'undefined') {
+            return this;
+        }
+
+        this.statusUpdate({ filled: true });
+
+        const template = `<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px"
+            data-ad-client="${config.filler.client}"
+            data-ad-slot="${config.filler.slot}">
+        </ins>`;
+
+        this.filler().html(template);
+
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        return this;
+    }
+
     _addListeners() {
         // triggering start
         this.container().sub('transitionend', () => {
@@ -163,7 +195,13 @@ class Controller {
         });
 
         $().sub('scroll', () => {
-            if(this.isSkipped() || !this.ad() || !this.isLoaded() || !this.video() || !this.video().unit()) {
+            if (this.isFilled()) {
+                return false;
+            }
+
+            if (this.isSkipped() || !this.isLoaded()) {
+                this._fill();
+
                 return false;
             }
 
