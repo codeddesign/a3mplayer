@@ -31,6 +31,27 @@ class Campaign {
     }
 
     /**
+     * @return {Boolean}
+     */
+    isStandard() {
+        return this.$info.type == 'standard';
+    }
+
+    /**
+     * @return {Boolean}
+     */
+    isOnScroll() {
+        return this.$info.type == 'onscrolldisplay';
+    }
+
+    /**
+     * @return {Boolean}
+     */
+    isSidebarInfinity() {
+        return this.$info.type == 'sidebarinfinity';
+    }
+
+    /**
      * @return {Player}
      */
     player() {
