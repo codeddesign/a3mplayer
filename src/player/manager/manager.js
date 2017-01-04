@@ -13,7 +13,7 @@ class Manager {
     constructor(player) {
         this.$player = player;
 
-        this.$startedOnce = false;
+        this.$hasAds = false;
 
         this.initialize();
     }
@@ -54,8 +54,8 @@ class Manager {
     /**
      * @return {Boolean}
      */
-    startedOnce() {
-        return this.$startedOnce;
+    hasAds() {
+        return this.$hasAds;
     }
 
     /**
@@ -147,6 +147,8 @@ class Manager {
 
             return this;
         }
+
+        this.$hasAds = true;
 
         this.controller().videoEvent('initiating');
 
@@ -249,10 +251,6 @@ class Manager {
 
         // manage current ad
         switch (name) {
-            case 'started':
-                this.$startedOnce = true;
-
-                break;
             case 'skipped':
             case 'stopped':
             case 'complete':

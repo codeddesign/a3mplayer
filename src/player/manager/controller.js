@@ -93,10 +93,24 @@ class Controller {
         return this;
     }
 
+    mustPlay() {
+        return this.wrapper().inView().mustPlay;
+    }
+
+    mustPause() {
+        return this.wrapper().inView().mustPause;
+    }
+
     videoEvent(name, data) {
         switch (name) {
             case 'initiating':
+                if (this.mustPlay()) {
+                    this.container().removeClass('slided');
+                }
+
                 this.loader().show();
+
+                this.filler().hide();
 
                 break;
             case 'loaded':
@@ -144,6 +158,8 @@ class Controller {
                     return false;
                 }
 
+                this.loader().hide();
+
                 // first: schedule
                 this.tag().schedule();
 
@@ -164,7 +180,7 @@ class Controller {
     }
 
     _fill() {
-        if (this.manager().startedOnce() || this.isFilled()) {
+        if (this.manager().hasAds() || this.isFilled()) {
             return this;
         }
 
@@ -178,12 +194,7 @@ class Controller {
 
         this.statusUpdate({ filled: true });
 
-        const template = `<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px"
-            data-ad-client="${config.filler.client}"
-            data-ad-slot="${config.filler.slot}">
-        </ins>`;
-
-        this.filler().html(template);
+        this.filler().show();
 
         (adsbygoogle = window.adsbygoogle || []).push({});
 
@@ -193,12 +204,28 @@ class Controller {
     _addListeners() {
         // triggering start
         this.container().sub('transitionend', () => {
-            if (this.video() && !this.container().hasClass('slided')) {
+            if (this.container().hasClass('slided')) {
+                if (this.player().campaign().isSidebarInfinity()) {
+                    this.filler().show();
+                }
+
+                return false;
+            }
+
+            if (this.isLoaded() && !this.isPlaying()) {
                 this.video().start();
             }
         });
 
         $().sub('scroll', () => {
+            if (this.player().campaign().isSidebarInfinity()) {
+                if (this.wrapper().parent().bounds().top <= 0) {
+                    this.wrapper().addClass('fixed');
+                } else {
+                    this.wrapper().removeClass('fixed');
+                }
+            }
+
             if (this.isFilled()) {
                 return false;
             }
@@ -209,7 +236,7 @@ class Controller {
                 return false;
             }
 
-            if (this.wrapper().inView().mustPlay) {
+            if (this.mustPlay()) {
                 if (this.isPaused()) {
                     this.video().resume();
 
@@ -232,7 +259,7 @@ class Controller {
                 return false;
             }
 
-            if (this.wrapper().inView().mustPause) {
+            if (this.mustPause()) {
                 if (this.isPlaying()) {
                     this.video().pause();
 

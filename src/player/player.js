@@ -3,6 +3,8 @@ import Manager from './manager/manager';
 import { request_campaign } from './request';
 import $ from '../utils/element';
 import { create } from '../utils/element';
+import { referrer } from '../utils/parse_link';
+import config from '../../config';
 
 class Player {
     constructor() {
@@ -15,7 +17,7 @@ class Player {
 
     create(source) {
         const template = `<a3m-wrapper data-campaign="${source.id}">
-            <a3m-filler></a3m-filler>
+            <a3m-filler class="hidden">${this.fillerHtml()}</a3m-filler>
             <a3m-container class="slide slided">
                 <a3m-loader class="hidden">
                     <a3m-loader-in class="shape-one"></a3m-loader-in>
@@ -37,7 +39,51 @@ class Player {
             slot: wrapper.find('a3m-slot')
         };
 
+        let sizes = this.slot().size();
+
+        if (this.campaign().isSidebarInfinity()) {
+            wrapper.addClass('sidebarinfinity');
+
+            if (wrapper.bounds().top <= 0) {
+                wrapper.addClass('fixed');
+            }
+
+            this.els('filler').show();
+
+            sizes = { width: 300, height: 169 };
+        }
+
+        macro.setSizes(sizes);
+
         return this;
+    }
+
+    fillerHtml() {
+        if (this.campaign().isOnScroll()) {
+            return `<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px"
+                data-ad-client="${config.filler.client}"
+                data-ad-slot="${config.filler.slot}">
+            </ins>`;
+        }
+
+        if (this.campaign().isSidebarInfinity()) {
+            return `<a3m-fbfiller>
+                <a3m-fbwrapper>
+                    <a3m-fblike>
+                        <iframe
+                        src="https://www.facebook.com/plugins/like.php?href=${referrer.complete}&appId=${config.fb_appID}&width=61&layout=button_count&action=like&size=small&show_faces=false&share=false&height=21"
+                        width="86" height="21" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+                    </a3m-fblike>
+                    <a3m-fbshare>
+                        <iframe
+                        src="https://www.facebook.com/plugins/share_button.php?href=${referrer.complete}&appId=${config.fb_appID}&layout=button_count&size=small&mobile_iframe=true&width=88&height=20"
+                        width="96" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+                    </a3m-fbshare>
+                </a3m-fbwrapper>
+            </a3m-fbfiller>`;
+        }
+
+        return '';
     }
 
     /**
@@ -140,16 +186,14 @@ class Player {
 export default (source) => {
     const player = new Player(source);
 
-    player.create(source);
-
-    macro.setSizes(player.slot().size());
-
     return new Promise((resolve, reject) => {
         request_campaign(source)
             .then((campaign) => {
-                campaign.addPlayer(player);
-
                 player.$campaign = campaign;
+
+                player.create(source);
+
+                campaign.addPlayer(player);
 
                 if (!player.campaign().loaded().length) {
                     console.warn(`No tags available for current browser.`);
