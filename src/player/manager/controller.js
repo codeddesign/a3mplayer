@@ -85,6 +85,10 @@ class Controller {
         return this.player().els('loader');
     }
 
+    slot() {
+        return this.player().els('slot');
+    }
+
     statusUpdate(status = {}) {
         Object.keys(status).forEach((key) => {
             this.$status[key] = status[key];
@@ -117,6 +121,14 @@ class Controller {
                 this.statusUpdate({ loaded: true });
 
                 $().pub('scroll');
+
+                setTimeout(() => {
+                    if (!this.isPlaying() || this.video().remainingTime() <= -1) {
+                        this.manager().videoListener('error', 901);
+
+                        this.slot().html('');
+                    }
+                }, this.tag().timeOut());
                 break;
             case 'started':
                 this.statusUpdate({

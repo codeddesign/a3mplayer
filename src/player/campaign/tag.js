@@ -88,9 +88,16 @@ class Tag {
      * @return {Integer}
      */
     delay() {
-        const delay = parseInt(this.$delay_time);
+        return parseInt(this.$delay_time);
+    }
 
-        return delay * 1000;
+    /**
+     * Timeout time in milliseconds.
+     *
+     * @return {Integer}
+     */
+    timeOut() {
+        return parseInt(this.$timeout_limit);
     }
 
     /**

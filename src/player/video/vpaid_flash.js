@@ -16,6 +16,8 @@ class VPAIDFlash {
 
         this.$volume = 1;
 
+        this.$RemainingTime = false;
+
         this.$config = {
             view: 'transparent',
             bitrate: this.manager().media().bitrate() || 59.97,
@@ -157,7 +159,13 @@ class VPAIDFlash {
     }
 
     remainingTime() {
-        return this.unit().getAdRemainingTime([this.id()]);
+        return this.$RemainingTime;
+    }
+
+    timeUpdate() {
+        this.unit().getAdRemainingTime([this.id()]);
+
+        return this;
     }
 
     resize(size = {}) {
@@ -177,6 +185,12 @@ class VPAIDFlash {
 
         window[handler] = (id, typeName, typeId, callbackId, error, data) => {
             const info = { id, typeName, typeId, callbackId, error, data };
+
+            if (typeName == 'property') {
+                this._property(typeId, data);
+
+                return false;
+            }
 
             if (typeName == 'method') {
                 this._method(typeId);
@@ -255,7 +269,38 @@ class VPAIDFlash {
             data = data.errorcode || data.message || 900;
         }
 
+        if (name == 'Loaded') {
+            this.timeUpdate();
+
+            const events = ['Stopped', 'Skipped', 'Complete'];
+
+            const interval = setInterval(() => {
+                const found = events.some((event) => {
+                    if (!this.manager().ad() || this.$called[event]) {
+                        clearInterval(interval);
+
+                        return true;
+                    }
+
+                    return false;
+                });
+
+                if (!found) {
+                    this.timeUpdate();
+                }
+            }, 1000);
+        }
+
         this.manager().videoListener(name, data);
+
+        return this;
+    }
+
+    _property(name, data) {
+        name = name.replace('get', '')
+            .replace('Ad', '');
+
+        this[`$${name}`] = data;
 
         return this;
     }
