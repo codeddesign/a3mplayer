@@ -33,7 +33,7 @@ class Flash {
             <param name="wmode" value="transparent"></param>
             <param name="allowScriptAccess" value="always"></param>
             <param name="quality" value="high"></param>
-            <param name="FlashVars" value="handler=handler_${this.id()}"></param>
+            <param name="FlashVars" value="handler=handler_${this.id()}&target=${this.manager().creative().clickThrough()}"></param>
         </object>`;
     }
 

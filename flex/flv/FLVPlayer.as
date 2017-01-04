@@ -18,6 +18,8 @@ package {
 
     import flash.events.NetStatusEvent;
 
+    import flash.display.MovieClip;
+    import flash.events.MouseEvent;
 
     [SWF(backgroundColor="0xec9900" , width="640" , height="360")]
     public class FLVPlayer extends Sprite {
@@ -28,6 +30,7 @@ package {
         private var nsVol:SoundTransform;
         private var metaData:Object;
         private var jsHandler:String;
+        private var clickThrough:String;
         private var stopped:Boolean = false;
         private var paused:Boolean = false;
         private var volume:Number = 1;
@@ -35,6 +38,7 @@ package {
         public function FLVPlayer () {
             var paramObj:Object = LoaderInfo(this.root.loaderInfo).parameters;
             jsHandler = paramObj.handler;
+            clickThrough = paramObj.target;
 
             Security.allowDomain("*");
             Security.allowInsecureDomain("*");
@@ -97,7 +101,17 @@ package {
             vid.x = 0;
             vid.y = 0;
 
-            addChild(vid);
+            var mc:MovieClip = new MovieClip();
+            mc.addChild(vid);
+            mc.buttonMode = true;
+
+            mc.addEventListener(MouseEvent.CLICK, function():void {
+              ExternalInterface.call('open', clickThrough, '_blank');
+
+              callInterface('event', 'clickthrough');
+            });
+
+            addChild(mc);
 
             vid.attachNetStream(ns);
         }
