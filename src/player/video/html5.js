@@ -187,6 +187,10 @@ class HTML5 {
             this._event('volumechange');
         }
 
+        this.unit().onerror = (e) => {
+            this._event('error', 403);
+        }
+
         return this;
     }
 
