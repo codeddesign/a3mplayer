@@ -27,6 +27,7 @@ package {
         private var metaData:Object;
         private var jsHandler:String;
         private var stopped:Boolean = false;
+        private var paused:Boolean = false;
         private var volume:Number = 1;
 
         public function FLVPlayer () {
@@ -104,8 +105,8 @@ package {
                 } else  {
                     stopped = true;
 
-                    callInterface('event', 'stopped');
                     callInterface('event', 'videocomplete');
+                    callInterface('event', 'stopped');
                 }
             }
 
@@ -149,20 +150,28 @@ package {
 
                 stopped = true;
 
-                callInterface('event', 'stopped');
                 callInterface('event', 'videocomplete');
+                callInterface('event', 'stopped');
             });
 
             ExternalInterface.addCallback('pause', function():void {
                 ns.pause();
 
-                callInterface('event', 'pause');
+                if(!paused) {
+                    paused = true;
+
+                    callInterface('event', 'paused');
+                }
             });
 
             ExternalInterface.addCallback('resume', function():void {
                 ns.resume();
 
-                callInterface('event', 'playing');
+                if(paused) {
+                    paused = false;
+
+                    callInterface('event', 'playing');
+                }
             });
 
             ExternalInterface.addCallback('skip', function():void {
@@ -171,6 +180,7 @@ package {
                 stopped = true;
 
                 callInterface('event', 'skipped');
+                callInterface('event', 'stopped');
             });
 
             ExternalInterface.addCallback('setVolume', function(_volume:Number):void {
