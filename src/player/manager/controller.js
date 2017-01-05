@@ -1,4 +1,5 @@
 import $ from '../../utils/element';
+import device from '../../utils/device';
 import config from '../../../config';
 
 class Controller {
@@ -110,6 +111,11 @@ class Controller {
             case 'initiating':
                 if (this.mustPlay()) {
                     this.container().removeClass('slided');
+
+                    // Manages to fire the play continuously
+                    if (this.video() && device.iphone()) {
+                        this.video().loadUnit();
+                    }
                 }
 
                 this.loader().show();
@@ -123,7 +129,7 @@ class Controller {
                 $().pub('scroll');
 
                 setTimeout(() => {
-                    if (!this.isPlaying() || this.video().remainingTime() <= -1) {
+                    if (!this.video() || this.video().remainingTime() <= -1) {
                         this.manager().videoListener('error', 901);
 
                         this.slot().html('');

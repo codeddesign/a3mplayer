@@ -14,17 +14,22 @@ class HTML5 {
         this.$loaded = false;
         this.$animator = false;
 
+        this.$called = [];
+
         this.create();
     }
 
     template() {
-        return `<video width="100%" height="100%"></video>`;
+        return `<video width="100%" height="100%" webkit-playsinline="true" playsinline="true"></video>`;
     }
 
     create() {
         this.$unit = this.manager().player().slot().html(this.template()).node;
 
         this._extendUnit();
+        if (device.iphone()) {
+            this._attachAnimator();
+        }
 
         const attrs = {
             type: this.manager().media().type(),
@@ -44,8 +49,6 @@ class HTML5 {
                 this.$loaded = true;
 
                 this.loadUnit();
-
-                this._attachAnimator();
             });
         }
     }
@@ -124,6 +127,10 @@ class HTML5 {
         return this;
     }
 
+    remainingTime() {
+        return this.unit().duration - this.unit().currentTime;
+    }
+
     _event(name, data) {
         // console.info('html5 event', name);
 
@@ -138,11 +145,15 @@ class HTML5 {
 
     _extendUnit() {
         this.unit().oncanplaythrough = () => {
-            if (this.$stopped) {
+            if (this.$stopped || this.$paused) {
                 return false;
             }
 
-            this._event('loaded');
+            if (!this.$called['loaded']) {
+                this.$called['loaded'] = true;
+
+                this._event('loaded');
+            }
         };
 
         this.unit().onplay = () => {
@@ -201,7 +212,7 @@ class HTML5 {
     }
 
     _attachAnimator() {
-        this.$animator = new Animator(this.unit());
+        this.$animator = new Animator(this);
 
         return this;
     }

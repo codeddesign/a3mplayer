@@ -54,14 +54,14 @@ function AnimatorAudio(video) {
     return audio;
 }
 
-export default function(video) {
+export default function(HTML5) {
     const fps = config.animator_fps;
 
     let self = this,
+        video = HTML5.unit(),
         next,
         hasFuture,
-        audio = false,
-        _load;
+        audio = false;
 
     function draw() {
         if (video.isPaused || video.hasFinished) {
@@ -70,6 +70,8 @@ export default function(video) {
 
         if (video.currentTime >= video.duration) {
             video.hasFinished = true;
+
+            HTML5.stop();
 
             return false;
         }
@@ -116,7 +118,7 @@ export default function(video) {
 
         draw();
 
-        // video.onplay(); //direct call
+        video.onplay(); //direct call
 
         if (!audio.isPlaying && !audio.isMuted && typeof audio.play !== 'undefined') {
             audio.play();
@@ -128,7 +130,7 @@ export default function(video) {
 
         video.isPaused = true;
 
-        // video.onpause(); //direct call
+        video.onpause(); //direct call
 
         if (audio.isPlaying && !audio.isMuted) {
             audio.pause();

@@ -148,10 +148,6 @@ class Manager {
             return this;
         }
 
-        this.$hasAds = true;
-
-        this.controller().videoEvent('initiating');
-
         return this;
     }
 
@@ -194,7 +190,11 @@ class Manager {
 
         if (!this.media()) {
             console.warn('No media.');
+
+            return this;
         }
+
+        this.$hasAds = true;
 
         return this;
     }
@@ -241,6 +241,10 @@ class Manager {
                 this.tag().vastError(403, `Media type: ${this.media().type()}`);
 
                 break;
+        }
+
+        if (this.$video) {
+            this.controller().videoEvent('initiating');
         }
     }
 
