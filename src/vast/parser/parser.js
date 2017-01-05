@@ -92,7 +92,7 @@ export class XMLParser {
      * @return {XMLParser}
      */
     _xmlInline() {
-        this.xml = this.xml.split("\n")
+        this.xml = this.xml.split('\n')
             .map((line) => {
                 return line.trim();
             })
@@ -188,6 +188,10 @@ export class XMLParser {
             if ((matched = tagParts.input.replace(tagParts.matched, '')).length) {
                 this.__chunk = matched;
 
+                if (!this.__chunk.trim().length) {
+                    debugger;
+                }
+
                 // Initiate siblings array
                 if (!siblings) {
                     siblings = [];
@@ -246,7 +250,7 @@ export class XMLParser {
         if (matched = this._chunk().match(new RegExp(`<${name}(.*?)>(.*?)<\/${name}>`))) {
             tag = {
                 name,
-                input: matched.input,
+                input: matched.input.trim(),
                 matched: matched[0],
                 attributes: matched[1],
                 body: matched[2]
@@ -258,7 +262,7 @@ export class XMLParser {
 
                 tag = {
                     name,
-                    input: matched.input,
+                    input: matched.input.trim(),
                     matched: matched[0],
                     attributes: matched[2],
                     body: matched[3]
