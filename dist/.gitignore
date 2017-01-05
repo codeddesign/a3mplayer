@@ -1,4 +1,5 @@
 *
 !.gitignore
-!style.css
+!css/*
+!images/*
 !*.swf
