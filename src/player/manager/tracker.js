@@ -1,6 +1,7 @@
 import macro from '../macro';
 import scriptSource from '../../source';
 import { object_to_query } from '../../utils/parse_link';
+import config from '../../../config';
 
 class Tracker {
     constructor(manager) {
@@ -65,10 +66,12 @@ class Tracker {
     URI(uri, macros) {
         uri = macro.uri(uri, macros);
 
-        // const image = new Image;
-        // image.src = uri;
-
-        console.log(uri);
+        if (config.track_request) {
+            const image = new Image;
+            image.src = uri;
+        } else {
+            console.log(uri);
+        }
 
         return this;
     }
