@@ -91,7 +91,7 @@ class Tracker {
             referrer: '[referrer_url]'
         });
 
-        return macro.uri(`${scriptSource.path}/track?${data}`);
+        return macro.uri(`${config.app_path}/track?${data}`);
     }
 
     campaignEvent(campaign, status) {
