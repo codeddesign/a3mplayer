@@ -224,6 +224,10 @@ class Controller {
     }
 
     toggleSound() {
+        if (!this.video()) {
+            return false;
+        }
+
         const isMuted = !this.video().volume();
 
         (isMuted) ? this.video().volume(1, true): this.video().volume(0, true);
