@@ -51,7 +51,9 @@ export const request_tag = (uri, config = {}, mainVast = false, wrapperIndex = f
     return new Promise((resolve, reject) => {
         ajax().get(uri)
             .then((response) => {
-                track().tagEvent(config.id(), response.status);
+                if (wrapperIndex === false) {
+                    track().tagEvent(config.id(), response.status);
+                }
 
                 const vast = vastLoadXML(response.text),
                     wrappers = vast.ads().withType('wrapper'),
