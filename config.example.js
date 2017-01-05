@@ -1,4 +1,6 @@
 export default {
+    app_path: 'http://a3mapp.dev',
+
     animator_fps: 60,
 
     filler: {

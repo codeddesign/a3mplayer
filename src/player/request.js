@@ -2,6 +2,7 @@ import Campaign from './campaign/campaign';
 import { track } from './manager/tracker';
 import vastLoadXML from '../vast/base';
 import ajax from '../utils/ajax';
+import config from '../../config';
 
 /**
  * Makes a request to campaign uri.
@@ -12,7 +13,7 @@ import ajax from '../utils/ajax';
  * @return {Promise}
  */
 export const request_campaign = (source) => {
-    const uri = `${source.path}/campaign/${source.id}`;
+    const uri = `${config.app_path}/campaign/${source.id}`;
 
     return new Promise((resolve, reject) => {
         ajax().json(uri)
