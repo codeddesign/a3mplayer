@@ -118,6 +118,10 @@ class Tag {
      * @return {Boolean}
      */
     forMobile() {
+        if (this.$platform_type == 'all') {
+            return true;
+        }
+
         return this.$platform_type == 'mobile';
     }
 
