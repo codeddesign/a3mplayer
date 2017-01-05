@@ -11,34 +11,71 @@ class Tracker {
         this.$checked = new Set();
         this.$progressed = new Set();
 
-        this.$avoid = new Set(['timeupdate']);
-
-        this.$sources = {
-            ad: new Set([
-                'impression',
-                'error'
-            ]),
-            creative: new Set([
-                'firstquartile',
-                'midpoint',
-                'thirdquartile',
-                'complete',
-                'start',
-                'skip',
-                'pause',
-                'resume',
-                'timeupdate',
-                'mute',
-                'unmute'
-            ]),
-            clicks: new Set([
-                'clicktracking'
-            ])
+        this.$events = {
+            'loaded': {
+                code: 1,
+                source: false
+            },
+            'start': {
+                code: 2,
+                source: 'creative'
+            },
+            'impression': {
+                code: 3,
+                source: 'ad',
+            },
+            'error': {
+                code: null, // replaced with vast error code
+                source: 'ad'
+            },
+            'firstquartile': {
+                code: 4,
+                source: 'creative'
+            },
+            'midpoint': {
+                code: 5,
+                source: 'creative'
+            },
+            'thirdquartile': {
+                code: 6,
+                source: 'creative'
+            },
+            'complete': {
+                code: 7,
+                source: 'creative'
+            },
+            'skip': {
+                code: 8,
+                source: 'creative'
+            },
+            'pause': {
+                code: 9,
+                source: 'creative'
+            },
+            'resume': {
+                code: 10,
+                source: 'creative'
+            },
+            'mute': {
+                code: 11,
+                source: 'creative'
+            },
+            'unmute': {
+                code: 12,
+                source: 'creative'
+            },
+            'timeupdate': {
+                code: 13,
+                source: 'creative'
+            },
+            'clickthrough': {
+                code: 14,
+                source: 'videoclicks'
+            }
         };
 
         this.$aliases = {
-            clickthru: 'clicktracking',
-            clickthrough: 'clicktracking',
+            clickthru: 'clickthrough',
             skipped: 'skip',
             playing: 'resume',
             paused: 'pause',
@@ -46,6 +83,9 @@ class Tracker {
                 return this.manager().video().volume() ? 'unmute' : 'mute';
             }
         };
+
+        // string and event code
+        this.$avoid = new Set(['timeupdate', 13]);
     }
 
     manager() {
@@ -111,49 +151,40 @@ class Tracker {
     }
 
     videoEvent(name, data) {
-        name = name.replace('video', '');
-
-        let alias = false;
-        if (alias = this.$aliases[name]) {
-            if (typeof alias == 'function') {
-                name = alias();
-            } else {
-                name = alias;
-            }
-        }
+        name = this._eventName(name);
 
         if (!this.$avoid.has(name)) {
             console.info('@track:', name);
         }
 
-        Object.keys(this.$sources).forEach((_source) => {
-            const source = this.$sources[_source];
+        const event = this.$events[name];
+        if (!event) {
+            return false;
+        }
 
-            if (!source.has(name)) {
-                return false;
-            }
+        let uris = [];
 
-            let _uris = [];
-
-            if (_source == 'ad') {
+        switch (event.source) {
+            case 'ad':
                 if (name == 'impression') {
-                    _uris = this.manager().ad().impression();
+                    uris = this.manager().ad().impression();
                 }
 
                 if (name == 'error') {
-                    name = { errorcode: data };
-                    _uris = this.manager().ad().error();
-                }
-            }
+                    uris = this.manager().ad().error();
 
-            if (_source == 'creative') {
+                    event.code = data;
+                }
+
+                break;
+            case 'creative':
                 if (name == 'timeupdate' && data) {
                     const _second = Math.floor(data);
 
                     if (!this.$progressed.has(_second)) {
                         this.$progressed.add(_second);
 
-                        _uris = this.manager().creative().trackingEventProgress(data);
+                        uris = this.manager().creative().trackingEventProgress(data);
                     }
 
                     Object.keys(this.$checkPoints).forEach((point) => {
@@ -165,18 +196,35 @@ class Tracker {
                         }
                     });
                 } else {
-                    _uris = this.manager().creative().trackingEvent(name);
+                    uris = this.manager().creative().trackingEvent(name);
                 }
-            }
+                break;
+            case 'videoclicks':
+                uris = this.manager().creative().videoClick(name);
 
-            if (_source == 'clicks') {
-                _uris = this.manager().creative().videoClick(name);
-            }
+                break
+            case false:
+                break;
+        }
 
-            this._trackEventURIs('ad', name, _uris);
-        });
+        this._trackEventURIs('ad', event.code, uris);
 
         return this;
+    }
+
+    _eventName(name) {
+        name.replace('video', '');
+
+        const alias = this.$aliases[name];
+        if (alias) {
+            if (typeof alias == 'function') {
+                name = alias();
+            } else {
+                name = alias;
+            }
+        }
+
+        return name;
     }
 
     _trackEventURIs(source, status, uris = []) {
