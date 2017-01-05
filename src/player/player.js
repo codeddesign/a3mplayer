@@ -26,6 +26,7 @@ class Player {
                 </a3m-loader>
                 <a3m-youtube></a3m-youtube>
                 <a3m-slot></a3m-slot>
+                <a3m-sound class="hidden on"></a3m-sound>
             </a3m-container>
         </a3m-wrapper>`;
 
@@ -36,7 +37,8 @@ class Player {
             filler: wrapper.find('a3m-filler'),
             container: wrapper.find('a3m-container'),
             loader: wrapper.find('a3m-loader'),
-            slot: wrapper.find('a3m-slot')
+            slot: wrapper.find('a3m-slot'),
+            sound: wrapper.find('a3m-sound')
         };
 
         let sizes = this.slot().size();

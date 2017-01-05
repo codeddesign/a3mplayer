@@ -66,6 +66,23 @@ a3m-slot > video::-webkit-media-controls-play-button, a3m-slot video::-webkit-me
     width: 5px;
 }
 
+a3m-sound {
+    position: absolute;
+    display: block;
+    bottom: calc(100% - 96%);
+    right: calc(100% - 96%);
+    width: 20px;
+    height: 20px;
+}
+
+a3m-sound.on {
+    background: url('./soundon.png');
+}
+
+a3m-sound.off {
+    background: url('./soundoff.png');
+}
+
 
 /** Facebook filler */
 

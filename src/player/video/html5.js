@@ -111,7 +111,7 @@ class HTML5 {
         return this;
     }
 
-    volume(volume = false) {
+    volume(volume = false, byUser = false) {
         if (volume === false) {
             return (this.unit().muted == false) ? 1 : 0;
         }
@@ -124,6 +124,16 @@ class HTML5 {
 
         this.unit().muted = volume;
 
+        if (this.$animator && byUser) {
+            if (volume) {
+                this.$animator.unmute();
+
+                return this;
+            }
+
+            this.$animator.mute();
+        }
+
         return this;
     }
 
@@ -135,6 +145,8 @@ class HTML5 {
         // console.info('html5 event', name);
 
         if (name == 'loaded') {
+            this.$loaded = true;
+
             this.manager().tracker().setCheckPoints(this.unit().duration);
         }
 

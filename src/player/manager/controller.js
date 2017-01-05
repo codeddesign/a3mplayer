@@ -90,6 +90,10 @@ class Controller {
         return this.player().els('slot');
     }
 
+    sound() {
+        return this.player().els('sound');
+    }
+
     statusUpdate(status = {}) {
         Object.keys(status).forEach((key) => {
             this.$status[key] = status[key];
@@ -219,6 +223,14 @@ class Controller {
         return this;
     }
 
+    toggleSound() {
+        const isMuted = !this.video().volume();
+
+        (isMuted) ? this.video().volume(1, true): this.video().volume(0, true);
+
+        this.sound().toggleClasses('off', 'on');
+    }
+
     _addListeners() {
         // triggering start
         this.container().sub('transitionend', () => {
@@ -232,8 +244,32 @@ class Controller {
 
             if (this.isLoaded() && !this.isPlaying()) {
                 this.video().start();
+
+                if (!this.player().campaign().isStandard()) {
+                    this.video().volume(0);
+
+                    this.sound().toggleClasses('off', 'on');
+                }
+
+                if (device.mobile()) {
+                    this.sound().show();
+                }
             }
         });
+
+        this.container().sub('mouseover', () => {
+            this.toggleSound();
+        });
+
+        this.container().sub('mouseout', () => {
+            this.toggleSound();
+        });
+
+        this.sound().sub('click', (ev) => {
+            ev.stopPropagation();
+
+            this.toggleSound(true);
+        })
 
         $().sub('scroll', () => {
             if (this.player().campaign().isSidebarInfinity()) {

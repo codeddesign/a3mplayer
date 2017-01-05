@@ -1,5 +1,5 @@
 *
 !.gitignore
-!css/*
-!images/*
 !*.swf
+!*.css
+!*.png
