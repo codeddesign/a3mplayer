@@ -188,10 +188,6 @@ export class XMLParser {
             if ((matched = tagParts.input.replace(tagParts.matched, '')).length) {
                 this.__chunk = matched;
 
-                if (!this.__chunk.trim().length) {
-                    debugger;
-                }
-
                 // Initiate siblings array
                 if (!siblings) {
                     siblings = [];
