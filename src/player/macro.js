@@ -7,7 +7,8 @@ class Macro {
     constructor() {
         this.$mapped = {};
 
-        this.set('user_agent', device.agent)
+        this.set('media_id', 'Ad3')
+            .set('user_agent', device.agent)
             .set('referrer_root', referrer.base)
             .set('referrer_url', referrer.complete)
             .set('width', 0)
