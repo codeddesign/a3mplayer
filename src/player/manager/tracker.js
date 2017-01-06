@@ -165,17 +165,21 @@ class Tracker {
             return false;
         }
 
-        let uris = [];
+        const uris = [];
 
         switch (event.source) {
             case 'ad':
                 if (name == 'impression') {
-                    uris = this.manager().ad().impression();
+                    uris.push(
+                        ...this.manager().ad().impression()
+                    );
                 }
 
                 if (name == 'error') {
                     if (this.manager() && this.manager().ad()) {
-                        uris = this.manager().ad().error();
+                        uris.push(
+                            ...this.manager().ad().error()
+                        );
                     }
 
                     event.code = data;
@@ -189,7 +193,9 @@ class Tracker {
                     if (!this.$progressed.has(_second)) {
                         this.$progressed.add(_second);
 
-                        uris = this.manager().creative().trackingEventProgress(data);
+                        uris.push(
+                            ...this.manager().creative().trackingEventProgress(data)
+                        );
                     }
 
                     Object.keys(this.$checkPoints).forEach((point) => {
@@ -201,11 +207,15 @@ class Tracker {
                         }
                     });
                 } else {
-                    uris = this.manager().creative().trackingEvent(name);
+                    uris.push(
+                        ...this.manager().creative().trackingEvent(name)
+                    );
                 }
                 break;
             case 'videoclicks':
-                uris = this.manager().creative().videoClick(name);
+                uris.push(
+                    ...this.manager().creative().videoClick(name)
+                );
 
                 break
             case false:
