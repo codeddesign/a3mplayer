@@ -22,6 +22,23 @@ class Device {
 
         return agent && platform;
     }
+
+    flash() {
+        let flash = false;
+        Object.keys(navigator.plugins).forEach((key) => {
+            const plugin = navigator.plugins[key];
+
+            Object.keys(plugin).forEach((key) => {
+                const mime = plugin[key];
+
+                if (mime.type == 'application/x-shockwave-flash') {
+                    flash = true;
+                }
+            })
+        })
+
+        return flash;
+    }
 }
 
 export default (() => {

@@ -1,4 +1,5 @@
 import macro from '../macro';
+import device from '../../utils/device';
 
 class Media {
     constructor(mediaFiles) {
@@ -8,23 +9,15 @@ class Media {
 
         this.$preferred = [];
 
-        this.$priority = [
-            'video/mp4',
-            'video/ogg',
-            'video/webm',
-            'video/x-flv',
-            'application/x-shockwave-flash',
-            'text/javascript',
-            'application/javascript',
-            'application/x-javascript'
-        ];
+        this.$priority = [];
 
         this.$sizes = {
             width: macro.get('width'),
             height: macro.get('height')
         };
 
-        this._setByFramework()
+        this._setPriority()
+            ._setByFramework()
             ._setByPriority()
             ._setByFirstType()
             ._setBySizes();
@@ -44,6 +37,28 @@ class Media {
 
     preferFramework() {
         this.$framework = true;
+
+        return this;
+    }
+
+    _setPriority() {
+        const priority = new Set([
+            'video/mp4',
+            'video/ogg',
+            'video/webm',
+            'video/x-flv',
+            'application/x-shockwave-flash',
+            'text/javascript',
+            'application/javascript',
+            'application/x-javascript'
+        ]);
+
+        if (!device.flash()) {
+            priority.delete('video/x-flv');
+            priority.delete('application/x-shockwave-flash');
+        }
+
+        this.$priority = [...priority];
 
         return this;
     }

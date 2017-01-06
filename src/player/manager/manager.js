@@ -238,8 +238,26 @@ class Manager {
         return this;
     }
 
+    mediaIsFlash() {
+        if (this.media().type() == 'video/x-flv') {
+            return true;
+        }
+
+        if (this.media().type() == 'application/x-shockwave-flash') {
+            return true;
+        }
+
+        return false;
+    }
+
     createVideo() {
         if (!this.media()) {
+            return this;
+        }
+
+        if (!device.flash() && this.mediaIsFlash()) {
+            this.tag().vastError(405);
+
             return this;
         }
 

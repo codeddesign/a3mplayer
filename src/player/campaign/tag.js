@@ -24,6 +24,7 @@ class Tag {
         this.$failed = false;
 
         this.$attempts = 0;
+        this.$scheduled = false;
     }
 
     /**
@@ -180,12 +181,20 @@ class Tag {
         return this.$attempts;
     }
 
+    /**
+     * @param {Integer} code
+     * @param {String} info
+     *
+     * @return {Tag}
+     */
     vastError(code, info) {
         this.$failed = new VastError(code, info);
 
         console.error(this.failed());
 
         track().videoEvent('error', code, this.id(), this.campaign().id());
+
+        this.schedule(true);
 
         return this;
     }
@@ -237,16 +246,26 @@ class Tag {
      * Notifies player when a tag gets loaded and
      * also has ads using player.tagListener()
      *
+     * param {Boolean} forced
+     *
      * @return {Tag}
      */
-    schedule() {
-        if (this.campaign().player().controller().isFilled()) {
+    schedule(forced = false) {
+        if (!forced && this.campaign().player().controller().isFilled()) {
             return this;
         }
+
+        if (this.$scheduled) {
+            return this;
+        }
+
+        this.$scheduled = true;
 
         setTimeout(() => {
             this.request()
                 .then(() => {
+                    this.$scheduled = false;
+
                     if (this.failed()) {
                         this.schedule();
 
