@@ -185,7 +185,7 @@ class Tag {
 
         console.error(this.failed());
 
-        track().tagEvent(this.id(), code);
+        track().videoEvent('error', code, this.id(), this.campaign().id());
 
         return this;
     }

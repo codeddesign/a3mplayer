@@ -150,8 +150,11 @@ class Tracker {
         return this;
     }
 
-    videoEvent(name, data) {
+    videoEvent(name, data, tag_id, campaign_id) {
         name = this._eventName(name);
+
+        tag_id = tag_id || this.manager().tag().id();
+        campaign_id = campaign_id || this.manager().player().campaign().id();
 
         if (!this.$avoid.has(name)) {
             console.info('@track:', name);
@@ -171,7 +174,9 @@ class Tracker {
                 }
 
                 if (name == 'error') {
-                    uris = this.manager().ad().error();
+                    if (this.manager() && this.manager().ad()) {
+                        uris = this.manager().ad().error();
+                    }
 
                     event.code = data;
                 }
@@ -207,13 +212,13 @@ class Tracker {
                 break;
         }
 
-        this._trackEventURIs('ad', event.code, uris);
+        this._trackEventURIs('ad', event.code, tag_id, campaign_id, uris);
 
         return this;
     }
 
     _eventName(name) {
-        name.replace('video', '');
+        name = name.replace('video', '');
 
         const alias = this.$aliases[name];
         if (alias) {
@@ -227,14 +232,14 @@ class Tracker {
         return name;
     }
 
-    _trackEventURIs(source, status, uris = []) {
+    _trackEventURIs(source, status, tag_id, campaign_id, uris = []) {
         if (!this.$avoid.has(status)) {
             uris.push(
                 this.appUri(
                     source,
                     status,
-                    this.manager().tag().id(),
-                    this.manager().player().campaign().id()
+                    tag_id,
+                    campaign_id
                 )
             );
         }
