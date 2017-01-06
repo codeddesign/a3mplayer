@@ -10,7 +10,6 @@ class Macro {
         this.set('user_agent', device.agent)
             .set('referrer_root', referrer.base)
             .set('referrer_url', referrer.complete)
-            .set('description_url', referrer.complete)
             .set('width', 0)
             .set('height', 0)
             .set('timestamp', 0)
