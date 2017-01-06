@@ -14,8 +14,6 @@ class Controller {
             skipped: false,
             filled: false
         };
-
-        this._addListeners();
     }
 
     manager() {
@@ -28,22 +26,6 @@ class Controller {
 
     player() {
         return this.manager().player();
-    }
-
-    tag() {
-        return this.manager().tag();
-    }
-
-    creative() {
-        return this.manager().creative();
-    }
-
-    ad() {
-        return this.manager().ad();
-    }
-
-    video() {
-        return this.manager().video();
     }
 
     isLoaded() {
@@ -70,30 +52,6 @@ class Controller {
         return this.status().filled;
     }
 
-    wrapper() {
-        return this.player().els('wrapper');
-    }
-
-    filler() {
-        return this.player().els('filler');
-    }
-
-    container() {
-        return this.player().els('container');
-    }
-
-    loader() {
-        return this.player().els('loader');
-    }
-
-    slot() {
-        return this.player().els('slot');
-    }
-
-    sound() {
-        return this.player().els('sound');
-    }
-
     statusUpdate(status = {}) {
         Object.keys(status).forEach((key) => {
             this.$status[key] = status[key];
@@ -102,29 +60,21 @@ class Controller {
         return this;
     }
 
-    mustPlay() {
-        return this.wrapper().inView().mustPlay;
-    }
-
-    mustPause() {
-        return this.wrapper().inView().mustPause;
-    }
-
     videoEvent(name, data) {
         switch (name) {
             case 'initiating':
-                if (this.mustPlay()) {
-                    this.container().removeClass('slided');
+                if (this.manager().mustPlay()) {
+                    this.manager().container().removeClass('slided');
 
                     // Manages to fire the play continuously
-                    if (this.video() && device.iphone()) {
-                        this.video().loadUnit();
+                    if (this.manager().video() && device.mobile()) {
+                        this.manager().video().loadUnit();
                     }
                 }
 
-                this.loader().show();
+                this.manager().loader().show();
 
-                this.filler().hide();
+                this.manager().filler().hide();
 
                 break;
             case 'loaded':
@@ -133,12 +83,12 @@ class Controller {
                 $().pub('scroll');
 
                 setTimeout(() => {
-                    if (!this.video() || this.video().remainingTime() <= -1) {
+                    if (!this.manager().video() || this.manager().video().remainingTime() <= -1) {
                         this.manager().videoListener('error', 901);
 
-                        this.slot().html('');
+                        this.manager().slot().html('');
                     }
-                }, this.tag().timeOut());
+                }, this.manager().tag().timeOut());
                 break;
             case 'started':
                 this.statusUpdate({
@@ -174,23 +124,23 @@ class Controller {
                     return false;
                 }
 
-                if (!this.tag().finished()) {
+                if (!this.manager().tag().finished()) {
                     this.manager().nextTagAd();
 
                     return false;
                 }
 
-                this.loader().hide();
+                this.manager().loader().hide();
 
                 // first: schedule
-                this.tag().schedule();
+                this.manager().tag().schedule();
 
                 // second: re-initialize
                 this.manager().initialize();
 
                 // third: check if we got one ready
                 if (!this.manager().tag()) {
-                    this.container().addClass('slided');
+                    this.manager().container().addClass('slided');
                 }
 
                 break;
@@ -206,7 +156,7 @@ class Controller {
             return this;
         }
 
-        if (this.wrapper().inView().diffAbs < config.filler.pixels) {
+        if (this.manager().wrapper().inView().diffAbs < config.filler.pixels) {
             return this;
         }
 
@@ -216,117 +166,11 @@ class Controller {
 
         this.statusUpdate({ filled: true });
 
-        this.filler().show();
+        this.manager().filler().show();
 
         (adsbygoogle = window.adsbygoogle || []).push({});
 
         return this;
-    }
-
-    toggleSound() {
-        if (!this.video()) {
-            return false;
-        }
-
-        const isMuted = !this.video().volume();
-
-        (isMuted) ? this.video().volume(1, true): this.video().volume(0, true);
-
-        this.sound().toggleClasses('off', 'on');
-    }
-
-    _addListeners() {
-        // triggering start
-        this.container().sub('transitionend', () => {
-            if (this.container().hasClass('slided')) {
-                if (this.player().campaign().isSidebarInfinity()) {
-                    this.filler().show();
-                }
-
-                return false;
-            }
-
-            if (this.isLoaded() && !this.isPlaying()) {
-                this.video().start();
-
-                if (!this.player().campaign().isStandard()) {
-                    this.video().volume(0);
-
-                    this.sound().toggleClasses('off', 'on');
-                }
-
-                if (device.mobile()) {
-                    this.sound().show();
-                }
-            }
-        });
-
-        this.container().sub('mouseover', () => {
-            this.toggleSound();
-        });
-
-        this.container().sub('mouseout', () => {
-            this.toggleSound();
-        });
-
-        this.sound().sub('click', (ev) => {
-            ev.stopPropagation();
-
-            this.toggleSound(true);
-        })
-
-        $().sub('scroll', () => {
-            if (this.player().campaign().isSidebarInfinity()) {
-                if (this.wrapper().parent().bounds().top <= 0) {
-                    this.wrapper().addClass('fixed');
-                } else {
-                    this.wrapper().removeClass('fixed');
-                }
-            }
-
-            if (this.isFilled()) {
-                return false;
-            }
-
-            if (this.isSkipped() || !this.isLoaded()) {
-                this._fill();
-
-                return false;
-            }
-
-            if (this.mustPlay()) {
-                if (this.isPaused()) {
-                    this.video().resume();
-
-                    return false
-                }
-
-                if (!this.isPlaying()) {
-                    // trigger start
-                    if (this.container().hasClass('slided')) {
-                        this.container().removeClass('slided');
-
-                        return false;
-                    }
-
-                    this.container().pub('transitionend');
-
-                    return false
-                }
-
-                return false;
-            }
-
-            if (this.mustPause()) {
-                if (this.isPlaying()) {
-                    this.video().pause();
-
-                    return false;
-                }
-
-                return false;
-            }
-        });
     }
 }
 

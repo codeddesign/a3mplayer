@@ -8,12 +8,15 @@ import VPAIDFlash from '../video/vpaid_flash';
 import VPAIDJavaScript from '../video/vpaid_javascript';
 import device from '../../utils/device';
 import VastError from '../../vast/error';
+import $ from '../../utils/element';
 
 class Manager {
     constructor(player) {
         this.$player = player;
 
         this.$hasAds = false;
+
+        this._addListeners();
 
         this.initialize();
     }
@@ -105,6 +108,30 @@ class Manager {
      */
     controller() {
         return this.$controller;
+    }
+
+    wrapper() {
+        return this.player().els('wrapper');
+    }
+
+    filler() {
+        return this.player().els('filler');
+    }
+
+    container() {
+        return this.player().els('container');
+    }
+
+    loader() {
+        return this.player().els('loader');
+    }
+
+    slot() {
+        return this.player().els('slot');
+    }
+
+    sound() {
+        return this.player().els('sound');
     }
 
     /**
@@ -265,6 +292,124 @@ class Manager {
         }
 
         this.controller().videoEvent(name, data);
+    }
+
+    mustPlay() {
+        return this.wrapper().inView().mustPlay;
+    }
+
+    mustPause() {
+        return this.wrapper().inView().mustPause;
+    }
+
+    _addListeners() {
+        const toggleSound = () => {
+            if (!this.video()) {
+                return false;
+            }
+
+            const isMuted = !this.video().volume();
+
+            (isMuted) ? this.video().volume(1, true): this.video().volume(0, true);
+
+            this.sound().toggleClasses('off', 'on');
+        }
+
+        // triggering start
+        this.container().sub('transitionend', () => {
+            if (this.container().hasClass('slided')) {
+                if (this.player().campaign().isSidebarInfinity()) {
+                    this.filler().show();
+                }
+
+                return false;
+            }
+
+            if (this.controller().isLoaded() && !this.controller().isPlaying()) {
+                this.video().start();
+
+                if (!this.player().campaign().isStandard()) {
+                    this.video().volume(0);
+
+                    this.sound().toggleClasses('off', 'on');
+                }
+
+                if (device.mobile()) {
+                    this.sound().show();
+                }
+            }
+        });
+
+        this.container().sub('mouseover', () => {
+            if (device.mobile()) return false;
+
+            toggleSound();
+        });
+
+        this.container().sub('mouseout', () => {
+            if (device.mobile()) return false;
+
+            toggleSound();
+        });
+
+        this.sound().sub('click', (ev) => {
+            ev.stopPropagation();
+
+            toggleSound(true);
+        })
+
+        $().sub('scroll', () => {
+            if (this.player().campaign().isSidebarInfinity()) {
+                if (this.wrapper().parent().bounds().top <= 0) {
+                    this.wrapper().addClass('fixed');
+                } else {
+                    this.wrapper().removeClass('fixed');
+                }
+            }
+
+            if (this.controller().isFilled()) {
+                return false;
+            }
+
+            if (this.controller().isSkipped() || !this.controller().isLoaded()) {
+                this.controller()._fill();
+
+                return false;
+            }
+
+            if (this.mustPlay()) {
+                if (this.controller().isPaused()) {
+                    this.video().resume();
+
+                    return false
+                }
+
+                if (!this.controller().isPlaying()) {
+                    // trigger start
+                    if (this.container().hasClass('slided')) {
+                        this.container().removeClass('slided');
+
+                        return false;
+                    }
+
+                    this.container().pub('transitionend');
+
+                    return false
+                }
+
+                return false;
+            }
+
+            if (this.mustPause()) {
+                if (this.controller().isPlaying()) {
+                    this.video().pause();
+
+                    return false;
+                }
+
+                return false;
+            }
+        });
     }
 }
 

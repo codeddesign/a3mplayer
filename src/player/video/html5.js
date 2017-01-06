@@ -16,6 +16,8 @@ class HTML5 {
 
         this.$called = [];
 
+        this.$byUser = false;
+
         this.create();
     }
 
@@ -40,13 +42,15 @@ class HTML5 {
             this.unit().setAttribute(key, attrs[key]);
         });
 
-        if (device.iphone()) {
+        if (device.mobile()) {
             $().sub('touchend', () => {
                 if (this.$loaded) {
                     return false;
                 }
 
                 this.$loaded = true;
+
+                this.$byUser = true;
 
                 this.loadUnit();
             });
@@ -161,11 +165,17 @@ class HTML5 {
                 return false;
             }
 
-            if (!this.$called['loaded']) {
-                this.$called['loaded'] = true;
-
-                this._event('loaded');
+            if (this.$called['loaded']) {
+                return false;
             }
+
+            if (device.mobile() && !this.$byUser) {
+                return false;
+            }
+
+            this.$called['loaded'] = true;
+
+            this._event('loaded');
         };
 
         this.unit().onplay = () => {
