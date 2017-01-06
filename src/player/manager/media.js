@@ -94,6 +94,10 @@ class Media {
     }
 
     _setByFirstType() {
+        if (!this.preferred().length) {
+            return this;
+        }
+
         const type = this.preferred()[0].type();
 
         this.$preferred = this.preferred().filter((media) => {
