@@ -51,9 +51,25 @@ class Macro {
         return this.set('campaign_id', id);
     }
 
+    /**
+     * Proportions:
+     *  640x360 is .5626 * width
+     *  4:3     is .75   * width
+     *
+     * @param {Integer} options.width
+     * @param {Integer} options.height
+     */
     setSizes({ width, height }) {
-        this.set('width', width || 640)
-            .set('height', height || 360);
+        if (!width) {
+            width = 640;
+        }
+
+        if (!height) {
+            height = Math.round(.5626 * width);
+        }
+
+        this.set('width', width)
+            .set('height', height);
 
         return this;
     }
