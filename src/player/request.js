@@ -22,12 +22,7 @@ export const request_campaign = (source) => {
 
                 const campaign = new Campaign(response.text);
 
-                campaign.requestTags()
-                    .then((tags) => {
-                        campaign.$loaded = tags;
-
-                        resolve(campaign);
-                    })
+                resolve(campaign);
             })
             .catch((e) => {
                 console.error(e);

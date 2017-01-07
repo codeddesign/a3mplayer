@@ -197,17 +197,22 @@ export default (source) => {
 
                 campaign.addPlayer(player);
 
-                if (!player.campaign().loaded().length) {
-                    console.warn(`No tags available for current browser.`);
+                campaign.requestTags()
+                    .then((tags) => {
+                        player.$campaign.$loaded = tags;
 
-                    return false;
-                }
+                        if (!player.campaign().loaded().length) {
+                            console.warn(`No tags available for current browser.`);
 
-                player.initialize();
+                            return false;
+                        }
 
-                player.scheduleTags();
+                        player.initialize();
 
-                resolve(player);
+                        player.scheduleTags();
+
+                        resolve(player);
+                    });
             })
             .catch((e) => {
                 console.error('request player catch', e);
