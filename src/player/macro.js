@@ -26,7 +26,7 @@ class Macro {
         Object.keys(macros).forEach((key) => {
             _uri = _uri.replace(
                 new RegExp(`\\[${key}\\]`, 'gi'),
-                encodeURIComponent(macros[key])
+                (macros[key])
             );
         });
 
@@ -43,7 +43,7 @@ class Macro {
     }
 
     set(key, value) {
-        this.$mapped[key] = encodeURIComponent(value);
+        this.$mapped[key] = (value);
 
         return this;
     }
