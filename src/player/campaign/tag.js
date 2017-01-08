@@ -116,14 +116,24 @@ class Tag {
     }
 
     /**
+     * @return {String}
+     */
+    platformType() {
+        return this.$platform_type;
+    }
+
+    /**
+     * @return {Boolean}
+     */
+    forAll() {
+        return this.platformType() == 'all';
+    }
+
+    /**
      * @return {Boolean}
      */
     forMobile() {
-        if (this.$platform_type == 'all') {
-            return true;
-        }
-
-        return this.$platform_type == 'mobile';
+        return this.platformType() == 'mobile';
     }
 
     /**
@@ -134,7 +144,15 @@ class Tag {
             return false;
         }
 
-        if (this.forMobile() && !device.mobile()) {
+        if (this.forAll()) {
+            return true;
+        }
+
+        if (device.mobile() && !this.forMobile()) {
+            return false;
+        }
+
+        if (!device.mobile() && this.forMobile()) {
             return false;
         }
 
