@@ -1,7 +1,6 @@
 import device from '../utils/device';
 import { referrer } from '../utils/parse_link';
-
-// @@todo: add macros (timestamp format.. cachebuster is actually Date.now())
+import random from '../utils/random';
 
 class Macro {
     constructor() {
@@ -13,9 +12,12 @@ class Macro {
             .set('referrer_url', referrer.complete)
             .set('width', 0)
             .set('height', 0)
-            .set('timestamp', 0)
             .set('campaign_id', 0)
-            .set('ip_address', 0);
+            .set('ip_address', 0)
+            .set('timestamp', 0)
+            .set('cachebuster', 0)
+            .set('cachebreaker', 0)
+            .set('cache_breaker', 0);
     }
 
     uri(_uri, macros = {}) {
@@ -28,7 +30,10 @@ class Macro {
             );
         });
 
-        this.set('timestamp', Date.now());
+        this.set('timestamp', random())
+            .set('cachebuster', random())
+            .set('cachebreaker', random())
+            .set('cache_breaker', random());
 
         return _uri;
     }
