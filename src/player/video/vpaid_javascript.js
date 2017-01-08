@@ -79,12 +79,20 @@ class VPAIDJavaScript {
             this.$unit.subscribe(() => { this._event(name, data); }, `Ad${name}`);
         });
 
+        let creativeData = this.manager().creative().adParameters();
+
+        if (creativeData && this.manager().media().source().indexOf('cdn.springserve.com/vd/') !== -1) {
+            creativeData = {
+                AdParameters: creativeData
+            }
+        }
+
         this.$unit.initAd(
             this.$config.width,
             this.$config.height,
             this.$config.view,
             this.$config.bitrate,
-            this.manager().creative().adParameters() || '',
+            creativeData || '',
             ''
         );
 
