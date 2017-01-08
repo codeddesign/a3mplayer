@@ -75,11 +75,9 @@ export class XMLParser {
      */
     _xmlRemoveDefinition(xml) {
         let matched = xml.match(new RegExp(/(<\?xml(.*?)\?>)/));
-        if (!matched) {
-            throw new XMLParserError(`'${xml}' is not a valid xml.`);
+        if (matched) {
+            xml = xml.replace(matched[0], '');
         }
-
-        xml = xml.replace(matched[0], '');
 
         this.xml = xml;
 
