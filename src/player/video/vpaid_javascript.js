@@ -75,8 +75,8 @@ class VPAIDJavaScript {
 
         this.$unit.slot = this.manager().player().slot().node;
 
-        this.$events.forEach((name) => {
-            this.$unit.subscribe(() => { this._event(name); }, `Ad${name}`);
+        this.$events.forEach((name, data) => {
+            this.$unit.subscribe(() => { this._event(name, data); }, `Ad${name}`);
         });
 
         this.$unit.initAd(
@@ -153,6 +153,12 @@ class VPAIDJavaScript {
         name = name.toLowerCase();
 
         // console.info('js event', name);
+
+        if (name == 'error') {
+            if (!data || data < 100) {
+                data = 901;
+            }
+        }
 
         this.manager().videoListener(name, data);
 
