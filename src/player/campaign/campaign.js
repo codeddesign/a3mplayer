@@ -18,7 +18,8 @@ class Campaign {
         extend_object(this, response, ['campaign']);
 
         macro.setIp(this.ip())
-            .setCampaign(this.id());
+            .setCampaign(this.id())
+            .setWebsiteId(this.websiteId());
 
         this.$player = false;
 
@@ -136,6 +137,13 @@ class Campaign {
      */
     ip() {
         return this.$ip;
+    }
+
+    /**
+     * @return {Integer}
+     */
+    websiteId() {
+        return this.$website_id;
     }
 
     /**

@@ -14,6 +14,7 @@ class Macro {
             .set('height', 0)
             .set('campaign_id', 0)
             .set('ip_address', 0)
+            .set('w', 0)
             .set('timestamp', 0)
             .set('cachebuster', 0)
             .set('cachebreaker', 0)
@@ -54,6 +55,10 @@ class Macro {
 
     setCampaign(id) {
         return this.set('campaign_id', id);
+    }
+
+    setWebsiteId(id) {
+        return this.set('w', id);
     }
 
     /**

@@ -128,7 +128,8 @@ class Tracker {
             status,
             tag,
             campaign: campaign || '[campaign_id]',
-            referrer: '[referrer_url]'
+            w: '[w]',
+            referrer: '[referrer_url]',
         });
 
         return macro.uri(`${config.app_path}/track?${data}`);
