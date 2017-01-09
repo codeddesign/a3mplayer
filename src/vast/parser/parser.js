@@ -96,6 +96,8 @@ export class XMLParser {
             })
             .join('');
 
+        this.xml = this.xml.replace(new RegExp(/>\s+</g), '><');
+
         if (!this.xml.length) {
             throw new XMLParserError(`XML has no body.`)
         }
