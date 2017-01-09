@@ -12,6 +12,10 @@ class Tracker {
         this.$progressed = new Set();
 
         this.$events = {
+            'filled': {
+                code: 0,
+                source: false
+            },
             'loaded': {
                 code: 1,
                 source: false

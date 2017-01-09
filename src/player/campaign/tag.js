@@ -252,6 +252,8 @@ class Tag {
                             return ad.hasType('inline');
                         });
 
+                        track().videoEvent('filled', 0, this.id(), this.campaign().id());
+
                         resolve(this);
                     } catch (e) {
                         this.vastError(e.code)
