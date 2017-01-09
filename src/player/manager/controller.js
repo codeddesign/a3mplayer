@@ -84,7 +84,7 @@ class Controller {
                 $().pub('scroll');
 
                 setTimeout(() => {
-                    if (!this.manager().video() || this.manager().video().remainingTime() <= -1) {
+                    if (!this.manager().video() || this.manager().video().remainingTime() <= 0) {
                         this.manager().videoListener('error', 901);
 
                         this.manager().slot().html('');
