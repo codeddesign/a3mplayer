@@ -84,7 +84,7 @@ class Controller {
 
                 setTimeout(() => {
                     if (!this.manager().video() || this.manager().video().remainingTime() <= -1) {
-                        this.manager().videoListener('error', 301);
+                        this.manager().videoListener('error', 901);
 
                         this.manager().slot().html('');
                     }
