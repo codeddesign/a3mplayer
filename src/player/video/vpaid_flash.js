@@ -163,6 +163,10 @@ class VPAIDFlash {
     }
 
     timeUpdate() {
+        if (typeof this.unit().getAdRemainingTime == 'undefined') {
+            return this;
+        }
+
         this.unit().getAdRemainingTime([this.id()]);
 
         return this;
