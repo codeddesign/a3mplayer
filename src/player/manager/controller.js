@@ -63,6 +63,8 @@ class Controller {
     videoEvent(name, data) {
         switch (name) {
             case 'initiating':
+                break;
+            case 'loaded':
                 if (this.manager().mustPlay()) {
                     this.manager().container().removeClass('slided');
 
@@ -76,8 +78,7 @@ class Controller {
 
                 this.manager().filler().hide();
 
-                break;
-            case 'loaded':
+                //..
                 this.statusUpdate({ loaded: true });
 
                 $().pub('scroll');
@@ -124,6 +125,10 @@ class Controller {
                     return false;
                 }
 
+                // slide it..
+                this.manager().container().addClass('slided');
+
+                // load next ad from current tag
                 if (!this.manager().tag().finished()) {
                     this.manager().nextTagAd();
 
@@ -137,11 +142,6 @@ class Controller {
 
                 // second: re-initialize
                 this.manager().initialize();
-
-                // third: check if we got one ready
-                if (!this.manager().tag()) {
-                    this.manager().container().addClass('slided');
-                }
 
                 break;
             case 'error':

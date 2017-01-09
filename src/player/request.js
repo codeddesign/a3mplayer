@@ -103,12 +103,6 @@ export const request_tag = (uri, config = {}, mainVast = false, wrapperIndex = f
                 if (typeof vast.$index !== 'undefined') {
                     const $index = vast.$index;
 
-                    if (!vast.hasAds()) {
-                        resolve(vast);
-
-                        return false;
-                    }
-
                     let mainWrapper = false;
                     vast.ads().forEach((ad, index) => {
                         if (!mainWrapper) {
@@ -132,9 +126,11 @@ export const request_tag = (uri, config = {}, mainVast = false, wrapperIndex = f
                 resolve(mainVast);
             })
             .catch((e) => {
-                console.error(e);
+                if (wrapperIndex === false) {
+                    console.error(e);
 
-                track().tagEvent(config.id(), e.code);
+                    track().tagEvent(config.id(), e.code);
+                }
 
                 resolve(mainVast);
             });
