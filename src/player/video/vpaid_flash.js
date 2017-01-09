@@ -264,9 +264,11 @@ class VPAIDFlash {
         // console.info('vpaid event', name);
 
         if (name == 'Error') {
-            console.error('vpaid', data);
+            data = data.errorcode || data.message;
 
-            data = data.errorcode || data.message || 900;
+            if (!data || typeof data == 'string') {
+                data = 900;
+            }
         }
 
         if (name == 'Loaded') {
