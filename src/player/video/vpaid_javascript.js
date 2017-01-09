@@ -52,7 +52,7 @@ class VPAIDJavaScript {
     create() {
         const self = this,
             $target = this.manager().player().slot(),
-            template = '<iframe src="about:self" style="border:0;width:100%;height:100%"></iframe>',
+            template = '<iframe src="about:self" frameBorder="0" seamless="seamless" style="border:0;width:100%;height:100%"></iframe>',
             _window = $target.html(template).node.contentWindow,
             _iframe = _window.document;
 
