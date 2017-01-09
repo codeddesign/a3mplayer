@@ -52,7 +52,7 @@ class VPAIDJavaScript {
     create() {
         const self = this,
             $target = this.manager().player().slot(),
-            template = '<iframe src="about:self" frameBorder="0" seamless="seamless" style="border:0;width:100%;height:100%"></iframe>',
+            template = '<iframe src="javascript:false;" frameBorder="0" seamless="seamless" style="border:0;width:100%;height:100%"></iframe>',
             _window = $target.html(template).node.contentWindow,
             _iframe = _window.document;
 
@@ -74,25 +74,22 @@ class VPAIDJavaScript {
         this.$unit = unit;
 
         this.$unit.slot = this.manager().player().slot().node;
+        this.$unit._slot = this.manager().player().slot().node;
 
         this.$events.forEach((name, data) => {
             this.$unit.subscribe(() => { this._event(name, data); }, `Ad${name}`);
         });
 
-        let creativeData = this.manager().creative().adParameters();
-
-        if (creativeData && this.manager().media().source().indexOf('cdn.springserve.com/vd/') !== -1) {
-            creativeData = {
-                AdParameters: creativeData
-            }
-        }
+        let creativeData = {
+            AdParameters: this.manager().creative().adParameters()
+        };
 
         this.$unit.initAd(
             this.$config.width,
             this.$config.height,
             this.$config.view,
             this.$config.bitrate,
-            creativeData || '',
+            creativeData,
             ''
         );
 
