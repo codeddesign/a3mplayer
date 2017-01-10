@@ -239,6 +239,11 @@ class Tag {
                             return false;
                         }
 
+                        // use only inline
+                        this.vast().ads().$items = this.vast().ads().filter((ad) => {
+                            return ad.hasType('inline');
+                        });
+
                         if (!this.vast().hasAds()) {
                             throw new VastError(303);
                         }
@@ -246,11 +251,6 @@ class Tag {
                         if (!this.vast().hasLinear()) {
                             throw new VastError(201);
                         }
-
-                        // use only inline
-                        this.vast().ads().$items = this.vast().ads().filter((ad) => {
-                            return ad.hasType('inline');
-                        });
 
                         track().videoEvent('filled', 0, this.id(), this.campaign().id());
 
