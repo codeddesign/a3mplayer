@@ -9,7 +9,7 @@ class Macro {
         this.set('media_id', 'Ad3')
             .set('user_agent', device.agent)
             .set('referrer_root', referrer.base)
-            .set('referrer_url', referrer.complete)
+            .set('referrer_url', referrer.simple)
             .set('width', 0)
             .set('height', 0)
             .set('campaign_id', 0)

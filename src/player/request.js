@@ -43,6 +43,10 @@ export const request_campaign = (source) => {
  * @return Promise}
  */
 export const request_tag = (uri, config = {}, mainVast = false, wrapperIndex = false) => {
+    const virtual = document.createElement('textarea');
+    virtual.innerHTML = uri;
+    uri = virtual.value.trim();
+
     return new Promise((resolve, reject) => {
         ajax().get(uri)
             .then((response) => {
