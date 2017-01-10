@@ -279,7 +279,9 @@ class Tag {
      * @return {Tag}
      */
     schedule(forced = false) {
-        if (!forced && this.campaign().player().controller().isFilled()) {
+        const manager = this.campaign().player().manager();
+
+        if (!forced && manager && manager.controller() && manager.controller().isFilled()) {
             return this;
         }
 
