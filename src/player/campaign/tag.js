@@ -4,6 +4,7 @@ import { track } from '../manager/tracker';
 import VastError from '../../vast/error';
 import device from '../../utils/device';
 import { extend_object } from '../../utils/extend_object';
+import ajax from '../../utils/ajax';
 
 class Tag {
     /**
@@ -253,6 +254,8 @@ class Tag {
                         }
 
                         track().videoEvent('filled', 0, this.id(), this.campaign().id());
+
+                        ajax().payload({ tag: this.id(), vast: vast.clean() });
 
                         resolve(this);
                     } catch (e) {

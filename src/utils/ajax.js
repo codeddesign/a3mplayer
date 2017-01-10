@@ -1,3 +1,5 @@
+import config from '../../config';
+
 export class AjaxError {
     constructor(code, message) {
         this.code = code;
@@ -80,6 +82,19 @@ class Ajax {
                     reject(e);
                 })
         })
+    }
+
+    payload(object) {
+        if (!config.filled_dump) {
+            return false;
+        }
+
+        const string = JSON.stringify(object);
+
+        this.xhr.open('POST', config.filled_dump);
+        this.xhr.withCredentials = true;
+        this.xhr.setRequestHeader('Content-Type', 'application/json');
+        this.xhr.send(string);
     }
 }
 
