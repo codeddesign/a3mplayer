@@ -44,7 +44,7 @@ class Macro {
     }
 
     set(key, value) {
-        this.$mapped[key] = (value);
+        this.$mapped[key] = encodeURIComponent(value);
 
         return this;
     }

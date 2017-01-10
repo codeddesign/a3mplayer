@@ -46,6 +46,9 @@ class Ajax {
                 return false;
             }
 
+            if(uri.indexOf('/campaign') === -1)
+            this.xhr.withCredentials = true;
+
             this.xhr.onreadystatechange = () => {
                 if (this.xhr.readyState === 4) {
                     if (this.xhr.status != 200) {

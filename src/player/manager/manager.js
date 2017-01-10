@@ -150,6 +150,7 @@ class Manager {
 
         if (!this.tag()) {
             console.warn('No tag with ads to play.');
+            this.player().scheduleTags();
         }
 
         return this;
