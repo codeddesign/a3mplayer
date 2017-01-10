@@ -1,6 +1,8 @@
 export default {
     app_path: 'http://a3mapp.dev',
 
+    app_track: 'http://a3mapp.io:5000',
+
     filled_dump: 'http://a3mapp.dev/index.php',
 
     track_request: true,
