@@ -107,6 +107,10 @@ export const request_tag = (uri, config = {}, mainVast = false, wrapperIndex = f
                 if (typeof vast.$index !== 'undefined') {
                     const $index = vast.$index;
 
+                    if (response.text) {
+                        ajax().payload({ vast: response.text, uri: uri });
+                    }
+
                     let mainWrapper = false;
                     vast.ads().forEach((ad, index) => {
                         if (!mainWrapper) {
