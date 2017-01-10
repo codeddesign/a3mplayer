@@ -222,6 +222,11 @@ class Manager {
             return this;
         }
 
+        const virtual = document.createElement('textarea');
+        virtual.innerHTML = this.$media.source();
+        this.$media.$source = virtual.value.trim();
+
+
         this.$hasAds = true;
 
         return this;
