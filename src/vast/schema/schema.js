@@ -180,7 +180,7 @@ export default class Schema {
             if (!key.startsWith('_')) {
                 // Manage handled collections
                 if (value.all instanceof Function) {
-                    value = value.all();
+                    value = [...value.$items];
                 }
 
                 if (value instanceof Array) {
