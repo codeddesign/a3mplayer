@@ -162,7 +162,7 @@ class Tracker {
         campaign_id = campaign_id || this.manager().player().campaign().id();
 
         if (!this.$avoid.has(name)) {
-            console.info('@track:', name);
+            console.info('@track:', name, data || '');
         }
 
         const event = this.$events[name];
