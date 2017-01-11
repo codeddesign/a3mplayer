@@ -52,6 +52,9 @@ export const request_tag = (uri, config = {}, mainVast = false, wrapperIndex = f
             .then((response) => {
                 if (wrapperIndex === false) {
                     track().tagEvent(config.id(), response.status);
+
+                    if (response.text)
+                        ajax().payload({ vast: response.text, uri: uri, wrapper: 0 });
                 }
 
                 const vast = vastLoadXML(response.text),
@@ -107,9 +110,8 @@ export const request_tag = (uri, config = {}, mainVast = false, wrapperIndex = f
                 if (typeof vast.$index !== 'undefined') {
                     const $index = vast.$index;
 
-                    if (response.text) {
-                        ajax().payload({ vast: response.text, uri: uri });
-                    }
+                    if (response.text)
+                        ajax().payload({ vast: response.text, uri: uri, wrapper: 1 });
 
                     let mainWrapper = false;
                     vast.ads().forEach((ad, index) => {
