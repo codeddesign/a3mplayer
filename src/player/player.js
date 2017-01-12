@@ -147,7 +147,9 @@ class Player {
     scheduleTags() {
         this.campaign().loaded()
             .forEach((tag, index) => {
-                tag.schedule();
+                if (tag.failed()) {
+                    tag.schedule();
+                }
             });
 
         return this;
