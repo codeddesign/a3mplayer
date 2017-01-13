@@ -19,6 +19,30 @@ class Manager {
         this._addListeners();
 
         this.initialize();
+
+        if (device.mobile()) {
+            $().sub('touchend', () => {
+                const interval = setInterval(() => {
+                    if (!this.video()) {
+                        return false;
+                    }
+
+                    if (this.controller().isLoaded()) {
+                        return false;
+                    }
+
+                    if (this.video().$loaded) {
+                        return false;
+                    }
+
+                    this.video().$loaded = true;
+
+                    this.video().$byUser = true;
+
+                    this.video().loadUnit();
+                }, 100);
+            });
+        }
     }
 
     initialize() {

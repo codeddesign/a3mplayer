@@ -41,20 +41,6 @@ class HTML5 {
         Object.keys(attrs).forEach((key) => {
             this.unit().setAttribute(key, attrs[key]);
         });
-
-        if (device.mobile()) {
-            $().sub('touchend', () => {
-                if (this.$loaded) {
-                    return false;
-                }
-
-                this.$loaded = true;
-
-                this.$byUser = true;
-
-                this.loadUnit();
-            });
-        }
     }
 
     manager() {
