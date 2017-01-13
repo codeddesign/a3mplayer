@@ -109,7 +109,11 @@ class Media {
 
     _setBySizes() {
         this.preferred().sort((a, b) => {
-            return a.width() - this.$sizes.width
+            if (device.mobile()) {
+                return a.width() - b.width();
+            }
+
+            return a.width() - this.$sizes.width;
         });
 
         return this;
