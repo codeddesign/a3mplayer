@@ -161,7 +161,7 @@ class VPAIDJavaScript {
 
         if (name == 'error') {
             if (!data || data < 100) {
-                data = 901;
+                data = 900;
             }
         }
 
