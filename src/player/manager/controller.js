@@ -63,6 +63,13 @@ class Controller {
     videoEvent(name, data) {
         switch (name) {
             case 'initiating':
+                setTimeout(() => {
+                    if (!this.isLoaded() || !this.manager().video() || this.manager().video().remainingTime() <= 0) {
+                        this.manager().videoListener('error', 901);
+
+                        this.manager().slot().html('');
+                    }
+                }, this.manager().tag().timeOut());
                 break;
             case 'loaded':
                 if (this.manager().mustPlay()) {
@@ -82,14 +89,6 @@ class Controller {
                 this.statusUpdate({ loaded: true });
 
                 $().pub('scroll');
-
-                setTimeout(() => {
-                    if (!this.manager().video() || this.manager().video().remainingTime() <= 0) {
-                        this.manager().videoListener('error', 901);
-
-                        this.manager().slot().html('');
-                    }
-                }, this.manager().tag().timeOut());
                 break;
             case 'started':
                 this.statusUpdate({
