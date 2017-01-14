@@ -127,16 +127,18 @@ class Tracker {
             status = status[key];
         }
 
-        const data = object_to_query({
+        const data = {
             source,
             status,
             tag,
             campaign: campaign || '[campaign_id]',
             w: '[w]',
             referrer: '[referrer_url]',
-        });
+        };
 
-        return macro.uri(`${config.app_track}/track?${data}`);
+        data[config.cachebreaker_key] = Date.now();
+
+        return macro.uri(`${config.app_track}/track?${object_to_query(data)}`);
     }
 
     campaignEvent(campaign, status) {

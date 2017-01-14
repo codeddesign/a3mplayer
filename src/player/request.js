@@ -13,7 +13,7 @@ import config from '../../config';
  * @return {Promise}
  */
 export const request_campaign = (source) => {
-    const uri = `${config.app_path}/campaign/${source.id}`;
+    const uri = `${config.app_path}/campaign/${source.id}?${config.cachebreaker_key}=${Date.now()}`;
 
     return new Promise((resolve, reject) => {
         ajax().json(uri)

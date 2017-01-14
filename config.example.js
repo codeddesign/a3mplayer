@@ -9,6 +9,8 @@ export default {
 
     animator_fps: 60,
 
+    cachebreaker_key: '_rd',
+
     filler: {
         client: 'ca-pub-1234567890123456',
         slot: 1234567890,
