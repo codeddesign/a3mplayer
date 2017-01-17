@@ -61,14 +61,6 @@ class Player {
     }
 
     fillerHtml() {
-        if (this.campaign().isOnScroll()) {
-            return '';
-            return `<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px"
-                data-ad-client="${config.filler.client}"
-                data-ad-slot="${config.filler.slot}">
-            </ins>`;
-        }
-
         if (this.campaign().isSidebarInfinity()) {
             return `<a3m-fbfiller>
                 <a3m-fbwrapper>

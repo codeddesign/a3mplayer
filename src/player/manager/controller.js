@@ -180,7 +180,7 @@ class Controller {
     }
 
     _fill() {
-        if (this.manager().hasAds() || this.isFilled()) {
+        if (this.isLoaded() || this.isFilled()) {
             return this;
         }
 
@@ -188,15 +188,20 @@ class Controller {
             return this;
         }
 
-        if (typeof window.adsbygoogle == 'undefined') {
-            return this;
-        }
-
         this.statusUpdate({ filled: true });
 
-        this.manager().filler().show();
+        const template = `<iframe src="javascript:false;"
+        width="300" height="250" frameborder="0"
+        marginwidth="0" marginheight="0" vspace="0" hspace="0"
+        allowtransparency="true" scrolling="no" allowfullscreen="true"
+        seamless="seamless"
+        ></iframe>`,
+            _iframe = this.manager().filler().html(template).node.contentWindow,
+            head = _iframe.document.querySelector('head');
 
-        (adsbygoogle = window.adsbygoogle || []).push({});
+        _iframe.document.write(`<script type="text/javascript" src="http://a.intgr.net/tags/199_2.js"></script>`);
+
+        this.manager().filler().show();
 
         return this;
     }

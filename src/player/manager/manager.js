@@ -420,7 +420,7 @@ class Manager {
             }
 
             if (this.controller().isSkipped() || !this.controller().isLoaded()) {
-                // this.controller()._fill();
+                this.controller()._fill();
 
                 return false;
             }
