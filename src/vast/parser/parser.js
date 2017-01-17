@@ -298,8 +298,9 @@ export class XMLParser {
         });
 
         // Determine it's text
-        if (cdata = this._getCData(tag.body)) {
-            data[key].value = cdata;
+        cdata = this._getCData(tag.body);
+        if (cdata || typeof cdata == 'string') {
+            data[key].value = cdata.trim();
         } else if (!tag.body.startsWith('<')) {
             data[key].value = tag.body.trim();
         }
