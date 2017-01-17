@@ -291,7 +291,7 @@ class Tag {
     schedule(forced = false) {
         const manager = this.campaign().player().manager();
 
-        if (!forced && manager && manager.controller() && manager.controller().isFilled()) {
+        if (!forced && manager && manager.controller() && manager.$filled) {
             return this;
         }
 

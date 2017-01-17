@@ -16,6 +16,8 @@ class Manager {
 
         this.$hasAds = false;
 
+        this.$filled = false;
+
         this._addListeners();
 
         this.initialize();
@@ -415,7 +417,7 @@ class Manager {
                 }
             }
 
-            if (this.controller().isFilled()) {
+            if (this.$filled) {
                 return false;
             }
 

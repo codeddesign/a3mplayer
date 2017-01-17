@@ -12,8 +12,7 @@ class Controller {
             playing: false,
             paused: false,
             stopped: true,
-            skipped: false,
-            filled: false
+            skipped: false
         };
 
         this.$interval = false;
@@ -49,10 +48,6 @@ class Controller {
 
     isStopped() {
         return this.status().stopped;
-    }
-
-    isFilled() {
-        return this.status().filled;
     }
 
     statusUpdate(status = {}) {
@@ -180,7 +175,7 @@ class Controller {
     }
 
     _fill() {
-        if (this.isLoaded() || this.isFilled()) {
+        if (this.isLoaded() || this.manager().$filled) {
             return this;
         }
 
@@ -188,7 +183,7 @@ class Controller {
             return this;
         }
 
-        this.statusUpdate({ filled: true });
+        this.manager().$filled = true;
 
         const template = `<iframe src="javascript:false;"
         width="300" height="250" frameborder="0"
