@@ -1,6 +1,7 @@
 import Animator from './animator';
 import $ from '../../utils/element';
 import device from '../../utils/device';
+import macro from '../macro';
 
 class HTML5 {
     constructor(manager) {
@@ -22,7 +23,7 @@ class HTML5 {
     }
 
     template() {
-        return `<video width="100%" height="100%" webkit-playsinline="true" playsinline="true"></video>`;
+        return `<video width="${macro.get('width')}" height="${macro.get('height')}" webkit-playsinline="true" playsinline="true"></video>`;
     }
 
     create() {
