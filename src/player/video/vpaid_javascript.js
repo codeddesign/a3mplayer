@@ -52,7 +52,10 @@ class VPAIDJavaScript {
     create() {
         const self = this,
             $target = this.manager().player().slot(),
-            template = '<iframe src="javascript:false;" frameBorder="0" seamless="seamless" style="border:0;width:100%;height:100%"></iframe>',
+            template = `<iframe src="javascript:false;" frameborder="0"
+            marginwidth="0" marginheight="0" vspace="0" hspace="0"
+            allowtransparency="true" scrolling="no" allowfullscreen="true"
+            seamless="seamless" width="100%" height="100%"></iframe>`,
             _window = $target.html(template).node.contentWindow,
             _iframe = _window.document;
 
@@ -67,21 +70,27 @@ class VPAIDJavaScript {
 
         $(_iframe).find('head').append('script', attrs, events);
 
+        this.$slot = $(_iframe).find('body').append('div', { id: 'slot' });
+        this.$videoSlot = $(_iframe).find('body');
+
         return this;
     }
 
     loadUnit(unit) {
         this.$unit = unit;
 
-        this.$unit.slot = this.manager().player().slot().node;
-        this.$unit._slot = this.manager().player().slot().node;
-
         this.$events.forEach((name, data) => {
-            this.$unit.subscribe(() => { this._event(name, data); }, `Ad${name}`);
+            this.$unit.subscribe((ev) => { this._event(name, ev); }, `Ad${name}`);
         });
 
         let creativeData = {
             AdParameters: this.manager().creative().adParameters()
+        };
+
+        let environmentVars = {
+            slot: this.$slot.node,
+            videoSlot: this.$videoSlot.node,
+            videoSlotCanAutoPlay: false
         };
 
         this.$unit.initAd(
@@ -90,7 +99,7 @@ class VPAIDJavaScript {
             this.$config.view,
             this.$config.bitrate,
             creativeData,
-            ''
+            environmentVars
         );
 
         return this;
@@ -154,10 +163,12 @@ class VPAIDJavaScript {
         return this;
     }
 
-    _event(name, data) {
-        name = name.toLowerCase();
+    _event(name, ev) {
+        name = name.replace('Ad', '').toLowerCase();
 
-        // console.info('js event', name);
+        let data = (ev) ? ev.data : undefined;
+
+        // console.info('js event', name, data);
 
         if (name == 'error') {
             if (!data || data < 100) {
