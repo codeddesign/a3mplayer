@@ -46,7 +46,7 @@ class Player {
         if (this.campaign().isSidebarInfinity()) {
             wrapper.addClass('sidebarinfinity');
 
-            if (wrapper.bounds().top <= 0) {
+            if (wrapper.parent().bounds().top <= 0) {
                 wrapper.addClass('fixed');
             }
 
