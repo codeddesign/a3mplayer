@@ -52,8 +52,7 @@ a3m-slot, a3m-youtube {
     top: 0;
     left: 0;
     width: 100%;
-    /*height: 100%;*/
-    /* interesting effect with it */
+    height: 100%;
 }
 
 a3m-slot > video {
