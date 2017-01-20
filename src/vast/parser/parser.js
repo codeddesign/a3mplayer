@@ -292,7 +292,7 @@ export class XMLParser {
         // Add attributes
         tag.attributes.split(' ').forEach((split) => {
             let matched;
-            if (matched = split.match(/(.*?)="(.*?)"/)) {
+            if (matched = split.match(/(.*?)=["'](.*?)["']/)) {
                 data[key].attributes[matched[1].toLowerCase()] = matched[2];
             }
         });
