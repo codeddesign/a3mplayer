@@ -38,7 +38,8 @@ export class XMLParser {
 
         this._xmlRemoveDefinition(xml)
             ._xmlInline()
-            ._xmlEndTags();
+            ._xmlEndTags()
+            ._xmlRemoveHTMLComments();
 
         this.__json = this._parseTag();
 
@@ -133,6 +134,24 @@ export class XMLParser {
         }
 
         return this;
+    }
+
+    /**
+     * Remove HTML comments from xml.
+     *
+     * @return {XMLParser}
+     */
+    _xmlRemoveHTMLComments() {
+        const expression = /<!--(.*?)-->/g;
+
+        let matched;
+        if (matched = this.xml.match(new RegExp(expression))) {
+            matched.forEach((one) => {
+                this.xml = this.xml.replace(one, '');
+            })
+        }
+
+        return this
     }
 
     /**
