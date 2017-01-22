@@ -65,8 +65,8 @@ class Media {
 
     _setByFramework() {
         this.$preferred = this.mediaFiles().filter((media) => {
-            if (this.framework() && media.isVPAID()) {
-                return true;
+            if(this.framework()) {
+                return media.isVPAID();
             }
 
             return !media.isVPAID();
