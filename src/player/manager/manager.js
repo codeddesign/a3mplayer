@@ -24,25 +24,23 @@ class Manager {
 
         if (device.mobile()) {
             $().sub('touchend', () => {
-                const interval = setInterval(() => {
-                    if (!this.video()) {
-                        return false;
-                    }
+                if (!this.video()) {
+                    return false;
+                }
 
-                    if (this.controller().isLoaded()) {
-                        return false;
-                    }
+                if (this.controller().isLoaded()) {
+                    return false;
+                }
 
-                    if (this.video().$loaded) {
-                        return false;
-                    }
+                if (this.video().$loaded) {
+                    return false;
+                }
 
-                    this.video().$loaded = true;
+                this.video().$loaded = true;
 
-                    this.video().$byUser = true;
+                this.video().$byUser = true;
 
-                    this.video().loadUnit();
-                }, 100);
+                this.video().loadUnit();
             });
         }
     }
