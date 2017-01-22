@@ -1,5 +1,6 @@
 import macro from '../macro';
 import $ from '../../utils/element';
+import device from '../../utils/device';
 
 class VPAIDJavaScript {
     constructor(manager) {
@@ -8,6 +9,9 @@ class VPAIDJavaScript {
         this.$unit = false;
 
         this.$volume = 1;
+
+        this.$loaded = false;
+        this.$byUser = false;
 
         this.$config = {
             view: 'transparent',
@@ -50,6 +54,10 @@ class VPAIDJavaScript {
     }
 
     create() {
+        if (this.manager().$filled) {
+            return false;
+        }
+
         const self = this,
             $target = this.manager().player().slot(),
             template = `<iframe src="javascript:false;" frameborder="0"
@@ -59,12 +67,16 @@ class VPAIDJavaScript {
             _window = $target.html(template).node.contentWindow,
             _iframe = _window.document;
 
+        _iframe.inDapIF = true;
+
         const attrs = {
                 src: this.manager().media().source()
             },
             events = {
                 onload() {
-                    self.loadUnit(_window['getVPAIDAd']());
+                    self.$vpaid = _window['getVPAIDAd']();
+
+                    self.loadUnit(this.$vpaid);
                 }
             };
 
@@ -77,6 +89,17 @@ class VPAIDJavaScript {
     }
 
     loadUnit(unit) {
+        if (this.$hasUnit) {
+            return this;
+        }
+
+        unit = unit || this.$vpaid;
+        if (!this.$vpaid || (device.mobile() && !this.$byUser)) {
+            return false;
+        }
+
+        this.$hasUnit = true;
+
         this.$unit = unit;
 
         this.$events.forEach((name, data) => {
@@ -168,10 +191,18 @@ class VPAIDJavaScript {
 
         let data = (ev) ? ev.data : undefined;
 
-        // console.info('js event', name, data);
+        if (device.mobile() && !this.$byUser) {
+            return false;
+        }
+
+        console.info('js event', name, data);
+
+        if (name == 'loaded') {
+            this.$loaded = true;
+        }
 
         if (name == 'error') {
-            data = data.errorCode || false;
+            data = (data && data.errorCode) ? data.errorCode : false;
             if (!data || data < 100 || data > 901) {
                 data = 900;
             }
