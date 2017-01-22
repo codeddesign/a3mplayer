@@ -171,7 +171,8 @@ class VPAIDJavaScript {
         // console.info('js event', name, data);
 
         if (name == 'error') {
-            if (!data || data < 100) {
+            data = data.errorCode || false;
+            if (!data || data < 100 || data > 901) {
                 data = 900;
             }
         }
