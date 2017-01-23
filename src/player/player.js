@@ -4,6 +4,7 @@ import { request_campaign } from './request';
 import $ from '../utils/element';
 import { create } from '../utils/element';
 import { referrer } from '../utils/parse_link';
+import device from '../utils/device';
 import config from '../../config';
 
 class Player {
@@ -42,6 +43,10 @@ class Player {
         };
 
         let sizes = this.slot().size();
+
+        if (device.mobile()) {
+            sizes = { width: 320, height: 240 };
+        }
 
         if (this.campaign().isSidebarInfinity()) {
             wrapper.addClass('sidebarinfinity');
