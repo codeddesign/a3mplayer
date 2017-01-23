@@ -1,6 +1,6 @@
 import macro from '../macro';
 import scriptSource from '../../source';
-import { object_to_query } from '../../utils/parse_link';
+import { object_to_query, referrer } from '../../utils/parse_link';
 import config from '../../../config';
 
 class Tracker {
@@ -110,7 +110,7 @@ class Tracker {
     URI(uri, macros) {
         uri = macro.uri(uri, macros);
 
-        if (config.track_request) {
+        if (config.track_request && !referrer.data._tid) {
             const image = new Image;
             image.src = uri;
         } else {

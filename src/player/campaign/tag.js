@@ -4,6 +4,7 @@ import { track } from '../manager/tracker';
 import VastError from '../../vast/error';
 import device from '../../utils/device';
 import { extend_object } from '../../utils/extend_object';
+import { referrer } from '../../utils/parse_link';
 
 class Tag {
     /**
@@ -112,6 +113,10 @@ class Tag {
      * @return {Boolean}
      */
     isActive() {
+        if (referrer.data._tid) {
+            return true;
+        }
+
         return this.$active;
     }
 

@@ -2,6 +2,7 @@ import Campaign from './campaign/campaign';
 import { track } from './manager/tracker';
 import vastLoadXML from '../vast/base';
 import ajax from '../utils/ajax';
+import { referrer } from '../utils/parse_link';
 import config from '../../config';
 
 /**
@@ -13,7 +14,11 @@ import config from '../../config';
  * @return {Promise}
  */
 export const request_campaign = (source) => {
-    const uri = `${config.app_path}/campaign/${source.id}?${config.cachebreaker_key}=${Date.now()}`;
+    let uri = `${config.app_path}/campaign/${source.id}?${config.cachebreaker_key}=${Date.now()}`;
+
+    if (referrer.data._tid) {
+        uri += `&test=${referrer.data._tid}`;
+    }
 
     return new Promise((resolve, reject) => {
         ajax().json(uri)
