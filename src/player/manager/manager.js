@@ -330,6 +330,11 @@ class Manager {
 
         // manage current ad
         switch (name) {
+            case 'impression':
+                if(device.mobile()) {
+                    this.$filled = true;
+                }
+                break;
             case 'skipped':
             case 'stopped':
             case 'complete':
