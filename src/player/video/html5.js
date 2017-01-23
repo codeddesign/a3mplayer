@@ -23,7 +23,7 @@ class HTML5 {
     }
 
     template() {
-        return `<video width="${macro.get('width')}" height="${macro.get('height')}" webkit-playsinline="true" playsinline="true"></video>`;
+        return `<video width="100%" height="100%" webkit-playsinline="true" playsinline="true"></video>`;
     }
 
     create() {
