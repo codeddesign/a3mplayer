@@ -152,7 +152,7 @@ class Controller {
                 this.manager().container().addClass('slided');
 
                 // load next ad from current tag
-                if (!this.manager().tag().finished()) {
+                if (1==2 && !this.manager().tag().finished()) {
                     this.manager().nextTagAd();
 
                     return false;
