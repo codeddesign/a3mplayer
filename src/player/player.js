@@ -1,5 +1,6 @@
 import macro from './macro';
 import Manager from './manager/manager';
+import { track } from './manager/tracker';
 import { request_campaign } from './request';
 import $ from '../utils/element';
 import { create } from '../utils/element';
@@ -190,6 +191,8 @@ export default (source) => {
         request_campaign(source)
             .then((campaign) => {
                 player.$campaign = campaign;
+
+                track().visitEvent();
 
                 player.create(source);
 

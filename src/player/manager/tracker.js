@@ -1,6 +1,7 @@
 import macro from '../macro';
 import scriptSource from '../../source';
 import { object_to_query, referrer } from '../../utils/parse_link';
+import device from '../../utils/device';
 import config from '../../../config';
 
 class Tracker {
@@ -152,6 +153,28 @@ class Tracker {
     tagEvent(tag, status) {
         this.URI(
             this.appUri('tag', status, tag)
+        );
+
+        return this;
+    }
+
+    visitEvent() {
+        if (window.__a3mVisit) {
+            return this;
+        }
+
+        window.__a3mVisit = true;
+
+        const data = {
+            source: 'visit',
+            w: '[w]',
+            platform: (device.mobile()) ? 'mobile' : 'desktop',
+            referrer: '[referrer_url]',
+            user_agent: '[user_agent]',
+        };
+
+        this.URI(
+            macro.uri(`${config.app_track}/track?${object_to_query(data)}`)
         );
 
         return this;
