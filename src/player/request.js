@@ -3,6 +3,7 @@ import { track } from './manager/tracker';
 import vastLoadXML from '../vast/base';
 import ajax from '../utils/ajax';
 import { referrer } from '../utils/parse_link';
+import device from '../utils/device';
 import config from '../../config';
 
 /**
@@ -59,7 +60,7 @@ export const request_tag = (uri, config = {}, mainVast = false, wrapperIndex = f
                     track().tagEvent(config.id(), response.status);
 
                     if (response.text)
-                        ajax().payload({ vast: response.text, uri: uri, wrapper: 0 });
+                        ajax().payload({ vast: response.text, uri: uri, wrapper: 0, platform: (device.mobile()) ? 'mobile' : 'desktop' });
                 }
 
                 const vast = vastLoadXML(response.text),
@@ -116,7 +117,7 @@ export const request_tag = (uri, config = {}, mainVast = false, wrapperIndex = f
                     const $index = vast.$index;
 
                     if (response.text)
-                        ajax().payload({ vast: response.text, uri: uri, wrapper: 1 });
+                        ajax().payload({ vast: response.text, uri: uri, wrapper: 1, platform: (device.mobile()) ? 'mobile' : 'desktop' });
 
                     let mainWrapper = false;
                     vast.ads().forEach((ad, index) => {
