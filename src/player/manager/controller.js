@@ -59,30 +59,10 @@ class Controller {
     }
 
     videoEvent(name, data) {
-        const showPlayer = () => {
-            if (this.manager().mustPlay()) {
-                this.manager().container().removeClass('slided');
-
-                // Manages to fire the play continuously
-                if (this.manager().video() && device.mobile()) {
-                    this.manager().video().loadUnit();
-                }
-            }
-
-            this.manager().loader().show();
-
-            this.manager().filler().hide();
-
-            //..
-            this.statusUpdate({ loaded: true });
-
-            $().pub('scroll');
-        }
-
         switch (name) {
             case 'initiating':
                 setTimeout(() => {
-                    if (!this.isLoaded() || !this.manager().video() || this.manager().video().remainingTime() <= 0) {
+                    if (!this.isLoaded() || !this.manager().video()) {
                         if (this.manager().tag()) {
                             this.manager().videoListener('error', 901);
                             this.manager().slot().html('');
@@ -91,28 +71,19 @@ class Controller {
                 }, this.manager().tag().timeOut());
                 break;
             case 'loaded':
-                if (!this.manager().media().isVPAID()) {
-                    showPlayer();
+                this.statusUpdate({ loaded: true });
 
-                    return false;
+                track().videoEvent('filled', 0, this.manager().tag().id(), this.manager().player().campaign().id());
+
+                if (this.manager().mustPlay()) {
+                    this.manager().container().removeClass('slided');
                 }
 
-                this.$interval = setInterval(() => {
-                    if (!this.manager() || !this.manager().video()) {
-                        clearInterval(this.$interval);
+                this.manager().loader().show();
 
-                        return false;
-                    }
+                this.manager().filler().hide();
 
-                    if (this.manager().video().remainingTime() > 0) {
-                        clearInterval(this.$interval);
-
-                        showPlayer();
-
-                        // filled event for VPAID
-                        track().videoEvent('filled', 0, this.manager().tag().id(), this.manager().player().campaign().id());
-                    }
-                }, 100);
+                $().pub('scroll');
                 break;
             case 'started':
                 this.statusUpdate({
