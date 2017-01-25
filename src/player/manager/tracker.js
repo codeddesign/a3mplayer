@@ -213,6 +213,7 @@ class Tracker {
                 }
 
                 if (name == 'error') {
+                    macro.set('errorcode', data);
                     if (this.manager() && this.manager().ad()) {
                         uris.push(
                             ...this.manager().ad().error()
