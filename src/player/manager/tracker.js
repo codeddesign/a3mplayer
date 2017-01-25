@@ -183,7 +183,14 @@ class Tracker {
     videoEvent(name, data, tag_id, campaign_id) {
         name = this._eventName(name);
 
-        tag_id = tag_id || this.manager().tag().id();
+        if (!tag_id) {
+            if (!this.manager() || !this.manager().tag()) {
+                return false;
+            }
+
+            tag_id = this.manager().tag().id();
+        }
+
         campaign_id = campaign_id || this.manager().player().campaign().id();
 
         if (!this.$avoid.has(name)) {
