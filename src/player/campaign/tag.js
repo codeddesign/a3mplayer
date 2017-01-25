@@ -257,21 +257,6 @@ class Tag {
                             throw new VastError(201);
                         }
 
-                        let vpaidOnly = true;
-                        this.vast().ads().forEach((ad) => {
-                            ad.creatives().withType('linear').forEach((creative) => {
-                                creative.mediaFiles().forEach((media) => {
-                                    if (!media.isVPAID()) {
-                                        vpaidOnly = false;
-                                    }
-                                })
-                            });
-                        })
-
-                        if (!vpaidOnly) {
-                            track().videoEvent('filled', 0, this.id(), this.campaign().id());
-                        }
-
                         resolve(this);
                     } catch (e) {
                         this.vastError(e.code)
