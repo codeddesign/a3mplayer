@@ -61,6 +61,10 @@ class Controller {
     videoEvent(name, data) {
         switch (name) {
             case 'initiating':
+                if (!this.manager().media().isVPAID()) {
+                    track().videoEvent('filled', 0, this.manager().tag().id(), this.manager().player().campaign().id());
+                }
+
                 setTimeout(() => {
                     if (!this.isLoaded() || !this.manager().video()) {
                         if (this.manager().tag()) {
@@ -71,9 +75,11 @@ class Controller {
                 }, this.manager().tag().timeOut());
                 break;
             case 'loaded':
-                this.statusUpdate({ loaded: true });
+                if (this.manager().media().isVPAID()) {
+                    track().videoEvent('filled', 0, this.manager().tag().id(), this.manager().player().campaign().id());
+                }
 
-                track().videoEvent('filled', 0, this.manager().tag().id(), this.manager().player().campaign().id());
+                this.statusUpdate({ loaded: true });
 
                 if (this.manager().mustPlay()) {
                     this.manager().container().removeClass('slided');
@@ -123,7 +129,7 @@ class Controller {
                 this.manager().container().addClass('slided');
 
                 // load next ad from current tag
-                if (1==2 && !this.manager().tag().finished()) {
+                if (1 == 2 && !this.manager().tag().finished()) {
                     this.manager().nextTagAd();
 
                     return false;
