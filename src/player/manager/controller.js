@@ -66,7 +66,7 @@ class Controller {
                 }
 
                 setTimeout(() => {
-                    if (!this.isLoaded() || !this.manager().video()) {
+                    if (!this.isLoaded() || !this.manager().video() || !this.isPlaying()) {
                         if (this.manager().tag()) {
                             this.manager().videoListener('error', 901);
                             this.manager().slot().html('');

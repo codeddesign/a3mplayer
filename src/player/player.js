@@ -45,10 +45,6 @@ class Player {
 
         let sizes = this.slot().size();
 
-        if (device.mobile()) {
-            sizes = { width: 320, height: 240 };
-        }
-
         if (this.campaign().isSidebarInfinity()) {
             wrapper.addClass('sidebarinfinity');
 
@@ -163,7 +159,7 @@ class Player {
     tagListener() {
         console.info('One tag was updated this time and has some ads..');
 
-        if (this.manager().$filled) {
+        if (this.manager().$filled || this.manager().$stopAds) {
             return this;
         }
 

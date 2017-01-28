@@ -1,3 +1,4 @@
+import Animator from './animator';
 import macro from '../macro';
 import $ from '../../utils/element';
 import device from '../../utils/device';
@@ -10,7 +11,6 @@ class VPAIDJavaScript {
 
         this.$volume = 1;
 
-        this.$loaded = false;
         this.$byUser = false;
 
         this.$config = {
@@ -82,23 +82,31 @@ class VPAIDJavaScript {
 
         $(_iframe).find('head').append('script', attrs, events);
 
-        this.$slot = $(_iframe).find('body').append('div', { id: 'slot' });
-        this.$videoSlot = $(_iframe).find('body');
+        const _body = $(_iframe).find('body');
+
+        this.$slot = _body;
+        this.$videoSlot = _body.append('video', {
+            'webkit-playsinline': 'true',
+            'playsinline': 'true',
+            'preload': 'auto'
+        });
 
         return this;
     }
 
     loadUnit(unit) {
-        if (this.$hasUnit) {
+        if (this.$unit) {
+            if (device.mobile() && this.$byUser) {
+                this.start();
+            }
+
             return this;
         }
 
         unit = unit || this.$vpaid;
-        if (!this.$vpaid || (device.mobile() && !this.$byUser)) {
+        if (!this.$vpaid) {
             return false;
         }
-
-        this.$hasUnit = true;
 
         this.$unit = unit;
 
@@ -191,14 +199,11 @@ class VPAIDJavaScript {
 
         let data = (ev) ? ev.data : undefined;
 
-        if (device.mobile() && !this.$byUser) {
-            return false;
-        }
-
-        console.info('js event', name, data);
+        // console.info('js event', name, data);
 
         if (name == 'loaded') {
-            this.$loaded = true;
+            this.$videoSlot.style('width', '100%');
+            this.$videoSlot.style('height', '100%');
         }
 
         if (name == 'error') {

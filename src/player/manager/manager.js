@@ -28,19 +28,11 @@ class Manager {
                     return false;
                 }
 
-                if (this.controller().isLoaded()) {
-                    return false;
+                if (!this.video().$byUser) {
+                    this.video().$byUser = true;
+
+                    this.video().loadUnit();
                 }
-
-                if (this.video().$loaded) {
-                    return false;
-                }
-
-                this.video().$loaded = true;
-
-                this.video().$byUser = true;
-
-                this.video().loadUnit();
             });
         }
     }
@@ -330,9 +322,22 @@ class Manager {
 
         // manage current ad
         switch (name) {
+            case 'loaded':
+                if (!this.media().isVPAID()) {
+                    if (device.mobile()) {
+                        this.sound().show();
+                    }
+
+                    if (!this.player().campaign().isStandard()) {
+                        this.video().volume(0);
+
+                        this.sound().addClass('off').removeClass('on');
+                    }
+                }
+                break;
             case 'impression':
-                if(device.mobile()) {
-                    this.$filled = true;
+                if (device.mobile()) {
+                    this.$stopAds = true;
                 }
                 break;
             case 'skipped':
@@ -378,18 +383,8 @@ class Manager {
                 return false;
             }
 
-            if (this.controller().isLoaded() && !this.controller().isPlaying()) {
+            if (this.controller().isLoaded()) {
                 this.video().start();
-
-                if (!this.player().campaign().isStandard()) {
-                    this.video().volume(0);
-
-                    this.sound().toggleClasses('off', 'on');
-                }
-
-                if (device.mobile()) {
-                    this.sound().show();
-                }
             }
         });
 
@@ -425,40 +420,22 @@ class Manager {
             }
 
             if (this.player().campaign().isOnScroll() && (this.controller().isSkipped() || !this.controller().isLoaded())) {
-                this.controller()._fill();
+                // this.controller()._fill();
+                return false;
+            }
+
+            if (this.container().hasClass('slided')) {
+                this.container().removeClass('slided');
+            }
+
+            if (this.controller().isPaused() && this.mustPlay()) {
+                this.video().resume();
 
                 return false;
             }
 
-            if (this.mustPlay()) {
-                if (this.controller().isPaused()) {
-                    this.video().resume();
-
-                    return false
-                }
-
-                if (!this.controller().isPlaying()) {
-                    // trigger start
-                    if (this.container().hasClass('slided')) {
-                        this.container().removeClass('slided');
-
-                        return false;
-                    }
-
-                    this.container().pub('transitionend');
-
-                    return false
-                }
-
-                return false;
-            }
-
-            if (this.mustPause()) {
-                if (this.controller().isPlaying()) {
-                    this.video().pause();
-
-                    return false;
-                }
+            if (this.controller().isPlaying() && this.mustPause()) {
+                this.video().pause();
 
                 return false;
             }

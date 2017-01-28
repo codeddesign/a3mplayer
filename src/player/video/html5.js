@@ -12,7 +12,6 @@ class HTML5 {
         this.$stopped = false;
         this.$paused = false;
 
-        this.$loaded = false;
         this.$animator = false;
 
         this.$called = [];
@@ -23,7 +22,7 @@ class HTML5 {
     }
 
     template() {
-        return `<video width="100%" height="100%" webkit-playsinline="true" playsinline="true"></video>`;
+        return `<video width="100%" height="100%" webkit-playsinline="true" playsinline="true" preload="auto"></video>`;
     }
 
     create() {
@@ -42,6 +41,8 @@ class HTML5 {
         Object.keys(attrs).forEach((key) => {
             this.unit().setAttribute(key, attrs[key]);
         });
+
+        this.loadUnit();
     }
 
     manager() {
@@ -53,7 +54,17 @@ class HTML5 {
     }
 
     loadUnit() {
-        this.unit().load();
+        if (!this.$loadUnit) {
+            this.$loadUnit = true;
+
+            this.unit().load();
+        }
+
+        if (device.mobile() && !device.iphone() && !this.$byUser) {
+            return this;
+        }
+
+        this.start();
 
         return this;
     }
@@ -136,8 +147,6 @@ class HTML5 {
         // console.info('html5 event', name);
 
         if (name == 'loaded') {
-            this.$loaded = true;
-
             this.manager().tracker().setCheckPoints(this.unit().duration);
         }
 
@@ -147,16 +156,12 @@ class HTML5 {
     }
 
     _extendUnit() {
-        this.unit().oncanplaythrough = () => {
+        this.unit().onloadeddata = () => {
             if (this.$stopped || this.$paused) {
                 return false;
             }
 
             if (this.$called['loaded']) {
-                return false;
-            }
-
-            if (device.mobile() && !this.$byUser) {
                 return false;
             }
 
