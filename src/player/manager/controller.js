@@ -168,10 +168,29 @@ class Controller {
         allowtransparency="true" scrolling="no" allowfullscreen="true"
         seamless="seamless"
         ></iframe>`,
-            _iframe = this.manager().filler().html(template).node.contentWindow,
-            head = _iframe.document.querySelector('head');
+            _iframe = this.manager().filler().html(template).node.contentWindow;
 
-        _iframe.document.write(`<script type="text/javascript" src="http://a.intgr.net/tags/199_2.js"></script>`);
+        const script = _iframe.document.createElement('script');
+        script.src = '//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+
+        const ins = _iframe.document.createElement('ins');
+        ins.style.display = 'inline-block';
+        ins.style.width = '300px';
+        ins.style.height = '250px';
+        ins.setAttribute('class', 'adsbygoogle');
+        ins.setAttribute('data-ad-client', config.filler.client);
+        ins.setAttribute('data-ad-slot', config.filler.slot);
+
+        _iframe.document.body.appendChild(script);
+        _iframe.document.body.appendChild(ins);
+
+        const interval = setInterval(() => {
+            if (_iframe.adsbygoogle) {
+                clearInterval(interval);
+
+                _iframe.adsbygoogle.push({});
+            }
+        }, 10);
 
         this.manager().filler().show();
 

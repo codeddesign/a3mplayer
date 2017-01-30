@@ -198,12 +198,6 @@ export default (source) => {
                     .then((tags) => {
                         player.$campaign.$loaded = tags;
 
-                        if (!player.campaign().loaded().length) {
-                            console.warn(`No tags available for current browser.`);
-
-                            return false;
-                        }
-
                         player.initialize();
 
                         player.scheduleTags();

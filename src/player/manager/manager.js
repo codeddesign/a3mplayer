@@ -420,7 +420,8 @@ class Manager {
             }
 
             if (this.player().campaign().isOnScroll() && (this.controller().isSkipped() || !this.controller().isLoaded())) {
-                // this.controller()._fill();
+                this.controller()._fill();
+
                 return false;
             }
 
