@@ -52,7 +52,7 @@ class Ajax {
             this.xhr.onreadystatechange = () => {
                 if (this.xhr.readyState === 4) {
                     if (this.xhr.status != 200) {
-                        if (noCredentials) {
+                        if (noCredentials || this.xhr.status > 0) {
                             reject(new AjaxError(this.xhr.status, `Failed to get '${uri} via Ajax.'`));
 
                             return false;
