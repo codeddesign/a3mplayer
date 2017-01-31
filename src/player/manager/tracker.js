@@ -3,6 +3,7 @@ import scriptSource from '../../source';
 import { object_to_query, referrer } from '../../utils/parse_link';
 import device from '../../utils/device';
 import config from '../../../config';
+import ajax from '../../utils/ajax';
 
 class Tracker {
     constructor(manager) {
@@ -180,8 +181,12 @@ class Tracker {
         return this;
     }
 
-    videoEvent(name, data, tag_id, campaign_id) {
+    videoEvent(name, data, tag_id, campaign_id, creative) {
         name = this._eventName(name);
+
+        if (name == 'filled') {
+            ajax().payload({ creative: creative, event: name, platform: (device.mobile()) ? 'mobile' : 'desktop' });
+        }
 
         if (!tag_id) {
             if (!this.manager() || !this.manager().tag()) {

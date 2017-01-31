@@ -102,13 +102,17 @@ class Ajax {
     }
 
     payload(object) {
-        if (!config.filled_dump) {
+        if (!config.dump_vast.uri) {
+            return false;
+        }
+
+        if (config.dump_vast.event && config.dump_vast.event != object.event) {
             return false;
         }
 
         const string = JSON.stringify(object);
 
-        this.xhr.open('POST', config.filled_dump);
+        this.xhr.open('POST', config.dump_vast.uri);
         this.xhr.withCredentials = true;
         this.xhr.setRequestHeader('Content-Type', 'application/json');
         this.xhr.send(string);

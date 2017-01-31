@@ -3,7 +3,10 @@ export default {
 
     app_track: 'http://a3mapp.io:5000',
 
-    filled_dump: 'http://a3mapp.dev/index.php',
+    dump_vast: {
+        uri: 'http://a3mapp.dev/index.php',
+        event: 'filled'
+    },
 
     track_request: true,
 

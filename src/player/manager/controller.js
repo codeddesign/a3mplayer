@@ -62,7 +62,7 @@ class Controller {
         switch (name) {
             case 'initiating':
                 if (!this.manager().media().isVPAID()) {
-                    track().videoEvent('filled', 0, this.manager().tag().id(), this.manager().player().campaign().id());
+                    track().videoEvent('filled', 0, this.manager().tag().id(), this.manager().player().campaign().id(), this.manager().creative());
                 }
 
                 setTimeout(() => {
@@ -76,7 +76,7 @@ class Controller {
                 break;
             case 'loaded':
                 if (this.manager().media().isVPAID()) {
-                    track().videoEvent('filled', 0, this.manager().tag().id(), this.manager().player().campaign().id());
+                    track().videoEvent('filled', 0, this.manager().tag().id(), this.manager().player().campaign().id(), this.manager().creative());
                 }
 
                 this.statusUpdate({ loaded: true });
