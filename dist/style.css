@@ -29,7 +29,7 @@ a3m-container {
     padding-bottom: 56.25%;
     margin-bottom: 0;
     overflow: hidden;
-    width: 100%;
+    max-width: 640px;
     padding-top: 0;
     clear: both;
     /*background: #fdfdfd;*/
