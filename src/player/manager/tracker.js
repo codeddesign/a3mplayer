@@ -181,11 +181,11 @@ class Tracker {
         return this;
     }
 
-    videoEvent(name, data, tag_id, campaign_id, creative) {
+    videoEvent(name, data, tag_id, campaign_id, info) {
         name = this._eventName(name);
 
         if (name == 'filled') {
-            ajax().payload({ creative: creative, event: name, platform: (device.mobile()) ? 'mobile' : 'desktop' });
+            ajax().payload({ creative: info, event: name, platform: (device.mobile()) ? 'mobile' : 'desktop' });
         }
 
         if (!tag_id) {
