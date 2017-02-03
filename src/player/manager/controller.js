@@ -59,10 +59,14 @@ class Controller {
     }
 
     videoEvent(name, data) {
+        const filledEvent = () => {
+            track().videoEvent('filled', 0, this.manager().tag().id(), this.manager().player().campaign().id(), this.manager().creative());
+        }
+
         switch (name) {
             case 'initiating':
                 if (!this.manager().media().isVPAID()) {
-                    track().videoEvent('filled', 0, this.manager().tag().id(), this.manager().player().campaign().id(), this.manager().creative());
+                    filledEvent();
                 }
 
                 setTimeout(() => {
@@ -75,8 +79,8 @@ class Controller {
                 }, this.manager().tag().timeOut());
                 break;
             case 'loaded':
-                if (this.manager().media().isVPAID()) {
-                    track().videoEvent('filled', 0, this.manager().tag().id(), this.manager().player().campaign().id(), this.manager().creative());
+                if (!device.mobile() && this.manager().media().isVPAID()) {
+                    filledEvent();
                 }
 
                 this.statusUpdate({ loaded: true });
@@ -92,6 +96,10 @@ class Controller {
                 $().pub('scroll');
                 break;
             case 'started':
+                if (device.mobile() && this.manager().media().isVPAID()) {
+                    filledEvent();
+                }
+
                 this.statusUpdate({
                     playing: true,
                     stopped: false,
