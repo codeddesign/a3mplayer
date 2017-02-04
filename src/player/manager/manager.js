@@ -323,16 +323,14 @@ class Manager {
         // manage current ad
         switch (name) {
             case 'loaded':
-                if (!this.media().isVPAID()) {
-                    if (device.mobile()) {
-                        this.sound().show();
-                    }
+                if (device.mobile()) {
+                    this.sound().show();
+                }
 
-                    if (!this.player().campaign().isStandard()) {
-                        this.video().volume(0);
+                if (!this.player().campaign().isStandard()) {
+                    this.video().volume(0);
 
-                        this.sound().addClass('off').removeClass('on');
-                    }
+                    this.sound().addClass('off').removeClass('on');
                 }
                 break;
             case 'impression':
